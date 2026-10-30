@@ -1,0 +1,1211 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Maison</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Maison">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#e8ecef" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f151b" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Big+Shoulders+Display:wght@700;800&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Concept : une feuille de chantier pour la maison. Trois onglets en bas (Planning, Budget, Réglages),
+   orange de signalisation sur fond gris-bleu froid, chiffres en chasse fixe. */
+:root {
+  color-scheme: light;
+  --bg: #e8ecef;
+  --surface: #f8fafb;
+  --ink: #17212b;
+  --muted: #56646e;
+  --line: #cbd4da;
+  --accent: #d1450b;
+  --accent-ink: #ffffff;
+  --ok: #2c8a4b;
+  --warn: #b3261e;
+  --in: #2c8a4b;
+  --out: #b3261e;
+  --save: #2f69b8;
+  --k-routine: #5c7287;
+  --k-menage: #12857f;
+  --k-linge: #3a76ca;
+  --k-dehors: #4d9231;
+  --k-voiture: #8859bd;
+  --k-papiers: #a77823;
+  --k-emploi: #d1450b;
+  --k-rdv: #c02f59;
+  --fd: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --fb: "Barlow", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --fm: "DM Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #0f151b;
+    --surface: #17202a;
+    --ink: #e6ecf1;
+    --muted: #97a6b1;
+    --line: #2a3641;
+    --accent: #ff7b3e;
+    --accent-ink: #1b0e05;
+    --ok: #52b873;
+    --warn: #ff8a80;
+    --in: #52b873;
+    --out: #ff8a80;
+    --save: #7fb0f5;
+    --k-routine: #8aa1b6;
+    --k-menage: #34b3ac;
+    --k-linge: #6ea4f0;
+    --k-dehors: #78bd5a;
+    --k-voiture: #b58ae6;
+    --k-papiers: #d6a24a;
+    --k-emploi: #ff7b3e;
+    --k-rdv: #f06c93;
+  }
+}
+
+[hidden] { display: none !important; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--fb);
+  font-size: 16px;
+  line-height: 1.45;
+  touch-action: manipulation;
+  padding-top: max(24px, env(safe-area-inset-top, 0px));
+  padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.tab { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
+h1, h2 { margin: 0; font-family: var(--fd); text-transform: uppercase; text-wrap: balance; }
+h1 { font-weight: 800; font-size: clamp(44px, 12vw, 68px); line-height: 0.92; letter-spacing: 0.01em; }
+h2 { font-weight: 800; font-size: 28px; line-height: 1; letter-spacing: 0.02em; }
+p { margin: 0; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+.eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.sum { margin-top: 14px; font-size: 15px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.sum b { color: var(--ink); font-weight: 600; }
+.hint { font-size: 14px; color: var(--muted); max-width: 62ch; }
+.top .hint { margin-top: 8px; }
+.hint b { color: var(--ink); }
+
+.btn {
+  min-height: 40px; padding: 0 14px; border: 1px solid var(--ink); border-radius: 4px;
+  background: transparent; font-weight: 600; font-size: 14px;
+}
+.btn:hover { background: var(--ink); color: var(--bg); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.primary:hover { filter: brightness(1.08); background: var(--accent); color: var(--accent-ink); }
+.btn.danger { border-color: var(--warn); color: var(--warn); }
+.btn.danger:hover { background: var(--warn); color: var(--bg); }
+.btn.ghost { border-color: var(--line); }
+.btn.ghost:hover { border-color: var(--ink); background: transparent; color: var(--ink); }
+.btn[disabled] { opacity: 0.4; cursor: default; }
+
+.sechead { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 3px solid var(--ink); padding-top: 12px; margin-bottom: 14px; min-height: 56px; }
+.sechead .btn { min-height: 34px; }
+.monthnav { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.monthnav h2 { min-width: 0; }
+
+/* Calendrier */
+.cal { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.cal .hd { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); text-align: center; padding: 2px 0 4px; }
+.cell {
+  position: relative; height: 50px; min-width: 0; padding: 6px 7px; text-align: left;
+  display: flex; align-items: flex-start;
+  border: 1px solid var(--line); border-radius: 4px; background: var(--surface); color: var(--ink);
+  font-family: var(--fm); font-size: 16px; font-weight: 500;
+}
+.cell:hover:not(.off) { border-color: var(--ink); }
+.cell.sel { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.cell.today::after { content: ""; position: absolute; top: 7px; right: 7px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.cell.sel.today::after { background: var(--accent-ink); }
+.cell.off { opacity: 0.3; cursor: default; }
+.cell .bar { position: absolute; left: 6px; right: 6px; bottom: 5px; height: 3px; background: var(--line); }
+.cell .bar i { display: block; height: 100%; width: 0; background: var(--ok); }
+.cell.sel .bar { background: color-mix(in srgb, var(--accent-ink) 30%, transparent); }
+.cell.sel .bar i { background: var(--accent-ink); }
+
+/* Jour */
+.day { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 16px; }
+.dayhead { display: flex; align-items: center; gap: 8px; }
+.dayhead h2 { flex: 1; min-width: 0; font-size: 34px; }
+.today-tag { display: inline-block; vertical-align: middle; margin-left: 8px; padding: 3px 7px; font: 600 11px/1 var(--fb); letter-spacing: 0.1em; background: var(--accent); color: var(--accent-ink); border-radius: 3px; position: relative; top: -3px; }
+.nav { flex: none; width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 4px; background: transparent; font-size: 18px; line-height: 1; }
+.nav:hover:not([disabled]) { border-color: var(--ink); }
+.nav[disabled] { opacity: 0.3; cursor: default; }
+.daymeta { margin-top: 10px; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.prog { height: 8px; background: var(--line); border-radius: 2px; overflow: hidden; margin: 10px 0 4px; }
+.prog i { display: block; height: 100%; width: 0; background: var(--accent); transition: width 0.25s; }
+.win { margin-top: 10px; padding: 10px 12px; border: 1px solid var(--ok); color: var(--ok); border-radius: 4px; font-weight: 600; }
+.dayactions { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+
+.rows { list-style: none; margin: 12px 0 0; padding: 0; }
+.row { display: grid; grid-template-columns: 28px 58px minmax(0, 1fr) 40px; column-gap: 12px; align-items: start; padding: 12px 0; border-top: 1px solid var(--line); }
+.row input[type="checkbox"] {
+  appearance: none; -webkit-appearance: none; width: 28px; height: 28px; margin: 0;
+  border: 2px solid var(--ink); border-radius: 4px; background: var(--bg); cursor: pointer; position: relative;
+}
+.row input[type="checkbox"]:checked { background: var(--accent); border-color: var(--accent); }
+.row input[type="checkbox"]:checked::after {
+  content: ""; position: absolute; left: 8px; top: 3px; width: 7px; height: 13px;
+  border: solid var(--accent-ink); border-width: 0 3px 3px 0; transform: rotate(45deg);
+}
+.when { font-family: var(--fm); padding-top: 1px; }
+.when .t { display: block; font-size: 15px; font-weight: 500; }
+.when .m { display: block; font-size: 12px; color: var(--muted); }
+.what { min-width: 0; cursor: pointer; display: flex; flex-direction: column; gap: 4px; }
+.lbl { font-size: 16px; font-weight: 500; line-height: 1.3; overflow-wrap: anywhere; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+.chip i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.warn { font-size: 12px; font-weight: 600; color: var(--warn); }
+.more { width: 40px; height: 40px; margin-top: -6px; border: 0; background: transparent; color: var(--muted); border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+.more:hover { background: var(--bg); color: var(--ink); }
+.row.done .lbl { text-decoration: line-through; text-decoration-thickness: 1px; }
+.row.done .what, .row.done .when { opacity: 0.5; }
+.opts { grid-column: 1 / -1; margin-top: 10px; padding: 12px; background: var(--bg); border-radius: 4px; display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
+.opts label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.opts input { min-height: 40px; padding: 0 8px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); font-size: 16px; text-transform: none; letter-spacing: 0; color: var(--ink); }
+
+/* Formulaires */
+.addform { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 12px; }
+.f { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.f.wide { grid-column: 1 / -1; }
+.f > span { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.f input, .f select, .f textarea { width: 100%; min-height: 46px; padding: 0 10px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); font-size: 16px; color: var(--ink); }
+.f textarea { min-height: 96px; padding: 10px; font-family: var(--fm); font-size: 13px; resize: vertical; }
+.f input:focus, .f select:focus, .f textarea:focus { border-color: var(--ink); }
+.addform .btn { grid-column: 1 / -1; min-height: 48px; font-size: 16px; }
+.msg { grid-column: 1 / -1; min-height: 20px; font-size: 14px; font-weight: 600; color: var(--warn); }
+.msg.good { color: var(--ok); }
+.addform .hint { grid-column: 1 / -1; }
+.seg { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--ink); border-radius: 4px; overflow: hidden; }
+.seg button { min-height: 46px; border: 0; background: transparent; font-weight: 600; font-size: 15px; }
+.seg button + button { border-left: 1px solid var(--ink); }
+.seg button[aria-pressed="true"] { color: #fff; }
+.seg button[aria-pressed="true"][data-v="out"] { background: var(--out); }
+.seg button[aria-pressed="true"][data-v="in"] { background: var(--in); }
+.seg button[aria-pressed="true"][data-v="save"] { background: var(--save); }
+@media (prefers-color-scheme: dark) { .seg button[aria-pressed="true"] { color: #10161c; } }
+
+/* Totaux et barres */
+.tot { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.tot li { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.3fr) 82px; gap: 12px; align-items: center; font-size: 15px; }
+.tot .nm { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.tot .nm i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.tot .tr { height: 10px; background: var(--line); border-radius: 2px; position: relative; overflow: hidden; }
+.tot .tr b { position: absolute; left: 0; top: 0; bottom: 0; opacity: 0.35; }
+.tot .tr i { position: absolute; left: 0; top: 0; bottom: 0; }
+.tot .tv { text-align: right; font-family: var(--fm); font-size: 14px; font-variant-numeric: tabular-nums; }
+.tot .empty { display: block; color: var(--muted); font-size: 14px; }
+.foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; font-size: 13px; color: var(--muted); }
+
+/* Budget */
+.bal .bigmoney { font-family: var(--fd); font-weight: 800; font-size: clamp(52px, 15vw, 84px); line-height: 0.95; letter-spacing: 0.01em; font-variant-numeric: tabular-nums; }
+.bal .bigmoney.neg { color: var(--out); }
+.trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.trio > div { padding: 12px 10px 12px 0; min-width: 0; }
+.trio > div + div { padding-left: 12px; border-left: 1px solid var(--line); }
+.trio .lab { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.trio .val { margin-top: 4px; font-family: var(--fm); font-size: 17px; font-weight: 500; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.val.in { color: var(--in); } .val.out { color: var(--out); } .val.save { color: var(--save); }
+.rest { margin-top: 12px; font-size: 15px; font-variant-numeric: tabular-nums; }
+.rest b { font-family: var(--fm); font-weight: 500; }
+.goal { margin-top: 12px; }
+.goal .prog i { background: var(--save); }
+.days { display: flex; flex-direction: column; gap: 18px; }
+.dg h3 { margin: 0 0 4px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.tx { list-style: none; margin: 0; padding: 0; }
+.tx li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); }
+.tx .w { min-width: 0; }
+.tx .w b { display: block; font-weight: 500; overflow-wrap: anywhere; }
+.tx .w span { font-size: 12px; color: var(--muted); }
+.tx .a { font-family: var(--fm); font-size: 15px; font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tx .a.in { color: var(--in); } .tx .a.out { color: var(--out); } .tx .a.save { color: var(--save); }
+.tx .x { min-width: 40px; min-height: 40px; border: 0; background: transparent; color: var(--muted); border-radius: 4px; font-size: 13px; font-weight: 600; }
+.tx .x:hover { background: var(--bg); color: var(--ink); }
+.tx .ask { display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 600; }
+.tx .ask .btn { min-height: 34px; padding: 0 10px; }
+.det { border-top: 1px solid var(--line); padding-top: 12px; }
+.det summary { font-weight: 600; cursor: pointer; min-height: 32px; display: flex; align-items: center; }
+.det .addform { margin-top: 12px; }
+.steps { margin: 10px 0 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 16px; }
+
+/* Barre d'onglets */
+.tabbar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  background: var(--surface); border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px);
+}
+.tabbar button {
+  min-height: 58px; border: 0; background: transparent; color: var(--muted);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.tabbar button[aria-current="page"] { color: var(--accent); }
+
+@media (min-width: 560px) {
+  .addform { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .prog i { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ================= PLANNING ================= -->
+<section class="tab" id="tab-planning">
+  <header class="top">
+    <p class="eyebrow" id="eyebrow">Planning</p>
+    <h1>Planning maison</h1>
+    <p class="sum" id="sum"></p>
+    <p class="hint">Les tâches se placent entre 10 h et 12 h, entre 13 h 30 et 17 h 30, puis après 20 h. Coche une tâche quand elle est faite, ajoute un imprévu en bas, le reste de la journée se décale tout seul.</p>
+  </header>
+
+  <section aria-labelledby="calh">
+    <div class="sechead">
+      <div class="monthnav">
+        <button class="nav" type="button" data-act="pm-prev" id="pm-prev" aria-label="Mois précédent">‹</button>
+        <h2 id="calh"></h2>
+        <button class="nav" type="button" data-act="pm-next" id="pm-next" aria-label="Mois suivant">›</button>
+      </div>
+      <button class="btn ghost" type="button" data-act="toggle-month" id="monthbtn">Voir le mois</button>
+    </div>
+    <div class="cal" id="cal"></div>
+  </section>
+
+  <section class="day" id="day" aria-live="polite"></section>
+
+  <section aria-labelledby="addh">
+    <div class="sechead"><h2 id="addh">Ajouter</h2></div>
+    <form class="addform" id="addform" novalidate>
+      <label class="f wide"><span>Quoi</span>
+        <input id="f-label" type="text" autocomplete="off" maxlength="120" placeholder="Dentiste, laver la voiture, appeler la mutuelle">
+      </label>
+      <label class="f"><span>Type</span>
+        <select id="f-cat"></select>
+      </label>
+      <label class="f"><span>Jour</span>
+        <input id="f-date" type="date">
+      </label>
+      <label class="f"><span>Heure (facultatif)</span>
+        <input id="f-time" type="time">
+      </label>
+      <label class="f"><span>Durée</span>
+        <select id="f-dur">
+          <option value="5">5 min</option><option value="10">10 min</option><option value="15">15 min</option>
+          <option value="20">20 min</option><option value="30" selected>30 min</option><option value="45">45 min</option>
+          <option value="60">1 h</option><option value="90">1 h 30</option><option value="120">2 h</option>
+        </select>
+      </label>
+      <button class="btn primary" type="submit">Ajouter au planning</button>
+      <p class="msg" id="f-msg" role="status"></p>
+      <p class="hint">Sans heure, la tâche prend le premier créneau libre du jour. Avec une heure, elle reste fixe et le reste du jour se range autour.</p>
+    </form>
+  </section>
+
+  <section aria-labelledby="toth">
+    <div class="sechead"><h2 id="toth">Temps du mois</h2></div>
+    <p class="sum" id="totsum" style="margin:0 0 14px"></p>
+    <ul class="tot" id="tot"></ul>
+    <div class="foot" style="margin-top:18px">
+      <span></span>
+      <button class="btn ghost" type="button" data-act="restore" id="restorebtn" hidden>Remettre les tâches retirées</button>
+    </div>
+  </section>
+</section>
+
+<!-- ================= BUDGET ================= -->
+<section class="tab" id="tab-budget" hidden>
+  <header class="top bal">
+    <p class="eyebrow">Mes sous</p>
+    <h1>Budget</h1>
+    <p class="eyebrow" style="margin-top:22px">Disponible sur ton compte</p>
+    <p class="bigmoney" id="b-avail">0,00 €</p>
+    <p class="sum" id="b-avail-sub" style="margin-top:10px"></p>
+  </header>
+
+  <section aria-labelledby="b-month">
+    <div class="sechead">
+      <div class="monthnav">
+        <button class="nav" type="button" data-act="bm-prev" aria-label="Mois précédent">‹</button>
+        <h2 id="b-month"></h2>
+        <button class="nav" type="button" data-act="bm-next" aria-label="Mois suivant">›</button>
+      </div>
+    </div>
+    <div class="trio">
+      <div><p class="lab">Entrées</p><p class="val in" id="b-in"></p></div>
+      <div><p class="lab">Sorties</p><p class="val out" id="b-out"></p></div>
+      <div><p class="lab">Épargné</p><p class="val save" id="b-save"></p></div>
+    </div>
+    <p class="rest" id="b-rest"></p>
+    <div class="goal" id="b-goal" hidden>
+      <p class="sum" id="b-goal-txt" style="margin:0"></p>
+      <div class="prog" id="b-goal-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Objectif d'épargne du mois"><i></i></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="b-addh">
+    <div class="sechead"><h2 id="b-addh">Ajouter</h2></div>
+    <form class="addform" id="b-form" novalidate>
+      <div class="seg" role="group" aria-label="Type de mouvement">
+        <button type="button" data-act="btype" data-v="out" aria-pressed="true">Sortie</button>
+        <button type="button" data-act="btype" data-v="in" aria-pressed="false">Entrée</button>
+        <button type="button" data-act="btype" data-v="save" aria-pressed="false">Épargne</button>
+      </div>
+      <label class="f"><span>Montant (€)</span>
+        <input id="b-amt" type="text" inputmode="decimal" autocomplete="off" placeholder="12,50">
+      </label>
+      <label class="f"><span>Jour</span>
+        <input id="b-date" type="date">
+      </label>
+      <label class="f" id="b-catf"><span>Catégorie</span>
+        <select id="b-cat"></select>
+      </label>
+      <label class="f"><span>Note (facultatif)</span>
+        <input id="b-label" type="text" autocomplete="off" maxlength="80" placeholder="Plein à Carrefour">
+      </label>
+      <button class="btn primary" type="submit">Ajouter</button>
+      <p class="msg" id="b-msg" role="status"></p>
+    </form>
+  </section>
+
+  <section aria-labelledby="b-cath">
+    <div class="sechead"><h2 id="b-cath">Sorties par catégorie</h2></div>
+    <ul class="tot" id="b-cats"></ul>
+  </section>
+
+  <section aria-labelledby="b-listh">
+    <div class="sechead"><h2 id="b-listh">Mouvements du mois</h2></div>
+    <div class="days" id="b-list"></div>
+  </section>
+
+  <section>
+    <details class="det" id="b-set">
+      <summary>Réglages du budget</summary>
+      <div class="addform">
+        <label class="f"><span>Solde de départ (€)</span>
+          <input id="b-start" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00">
+        </label>
+        <label class="f"><span>Épargne visée par mois (€)</span>
+          <input id="b-goalin" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00">
+        </label>
+        <p class="hint" style="grid-column:1/-1">Le solde de départ est l'argent que tu as sur ton compte au moment où tu commences à noter. Ensuite, chaque entrée l'augmente, chaque sortie ou épargne le diminue.</p>
+        <p class="msg" id="b-setmsg" role="status"></p>
+      </div>
+    </details>
+  </section>
+</section>
+
+<!-- ================= REGLAGES ================= -->
+<section class="tab" id="tab-settings" hidden>
+  <header class="top">
+    <p class="eyebrow">Application</p>
+    <h1>Réglages</h1>
+  </header>
+
+  <section>
+    <div class="sechead"><h2>Installation</h2></div>
+    <div class="card" id="s-install"></div>
+  </section>
+
+  <section>
+    <div class="sechead"><h2>Sauvegarde</h2></div>
+    <p class="hint" style="margin-bottom:14px">Tes données restent dans cet appareil. Fais une sauvegarde de temps en temps : copie le texte et colle-le dans une note ou un message à toi-même.</p>
+    <div class="addform">
+      <button class="btn" type="button" data-act="backup" style="grid-column:1/-1">Préparer et copier la sauvegarde</button>
+      <label class="f wide"><span>Texte de la sauvegarde</span>
+        <textarea id="s-backup" readonly placeholder="Appuie sur le bouton ci-dessus"></textarea>
+      </label>
+      <label class="f wide"><span>Restaurer depuis une sauvegarde</span>
+        <textarea id="s-restore" placeholder="Colle ici le texte sauvegardé"></textarea>
+      </label>
+      <button class="btn" type="button" data-act="restore-data" id="s-restorebtn" style="grid-column:1/-1">Restaurer</button>
+      <p class="msg" id="s-msg" role="status"></p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead"><h2>Tout effacer</h2></div>
+    <p class="hint" style="margin-bottom:14px">Supprime les coches du planning, les tâches ajoutées et tout le budget de cet appareil.</p>
+    <button class="btn danger" type="button" data-act="wipe" id="s-wipe">Tout effacer</button>
+  </section>
+</section>
+
+<nav class="tabbar" aria-label="Sections">
+  <button type="button" data-act="tab" data-tab="planning" aria-current="page">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="16" rx="2"/><path d="M8 3v4M16 3v4M3.5 10h17"/><path d="M8.5 15l2.3 2.3 4.7-4.7"/></svg>
+    Planning
+  </button>
+  <button type="button" data-act="tab" data-tab="budget">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M15 9.2a3.6 3.6 0 1 0 0 5.6M8.5 11h5M8.5 13h5"/></svg>
+    Budget
+  </button>
+  <button type="button" data-act="tab" data-tab="settings">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
+    Réglages
+  </button>
+</nav>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- Outils ---------- */
+  var pad = function (n) { return String(n).padStart(2, "0"); };
+  var JOURS = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
+  var MOIS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+  var EUR = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" });
+
+  function pd(s) { var p = s.split("-").map(Number); return new Date(p[0], p[1] - 1, p[2]); }
+  function ds(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+  function addDays(s, n) { var d = pd(s); d.setDate(d.getDate() + n); return ds(d); }
+  function toMin(t) { var p = t.split(":").map(Number); return p[0] * 60 + p[1]; }
+  function fmt(m) { return pad(Math.floor(m / 60)) + ":" + pad(m % 60); }
+  function fmtDur(m) {
+    var h = Math.floor(m / 60), r = m % 60;
+    if (!h) return m + " min";
+    return r ? h + " h " + pad(r) : h + " h";
+  }
+  function money(c) { return EUR.format(c / 100); }
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+  function longDay(s) {
+    var d = pd(s);
+    return cap(JOURS[d.getDay()]) + " " + (d.getDate() === 1 ? "1er" : d.getDate()) + " " + MOIS[d.getMonth()];
+  }
+  function ymOf(s) { return s.slice(0, 7); }
+  function monthLabel(ym) { var p = ym.split("-").map(Number); return cap(MOIS[p[1] - 1]) + " " + p[0]; }
+  function addMonths(ym, n) {
+    var p = ym.split("-").map(Number), d = new Date(p[0], p[1] - 1 + n, 1);
+    return d.getFullYear() + "-" + pad(d.getMonth() + 1);
+  }
+  function $(id) { return document.getElementById(id); }
+  function parseMoney(v) {
+    var x = parseFloat(String(v).replace(/\s/g, "").replace(",", "."));
+    if (!isFinite(x)) return null;
+    return Math.round(x * 100);
+  }
+  function inputMoney(c) { return c ? (c / 100).toFixed(2).replace(".", ",") : ""; }
+
+  /* ---------- Données (stockées dans cet appareil) ---------- */
+  var KEY = "maison-app-v1";
+  var TAB_KEY = "maison-app-tab";
+  function blankAll() {
+    return { v: 2, plan: { done: {}, hidden: {}, moved: {}, custom: [] }, budget: { start: 0, goal: 0, tx: [] } };
+  }
+  function normAll(d) {
+    var b = blankAll();
+    if (d && d.plan) {
+      b.plan.done = d.plan.done || {};
+      b.plan.hidden = d.plan.hidden || {};
+      b.plan.moved = d.plan.moved || {};
+      b.plan.custom = Array.isArray(d.plan.custom) ? d.plan.custom : [];
+    }
+    if (d && d.budget) {
+      b.budget.start = Math.round(Number(d.budget.start)) || 0;
+      b.budget.goal = Math.round(Number(d.budget.goal)) || 0;
+      b.budget.tx = Array.isArray(d.budget.tx) ? d.budget.tx.filter(function (t) {
+        return t && typeof t.date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(t.date) && (t.type === "in" || t.type === "out" || t.type === "save") && isFinite(t.cents);
+      }) : [];
+    }
+    return b;
+  }
+  function loadAll() {
+    try { var r = localStorage.getItem(KEY); return r ? normAll(JSON.parse(r)) : blankAll(); } catch (e) { return blankAll(); }
+  }
+  var DATA = loadAll();
+  var S = DATA.plan;
+  function persist() {
+    try { localStorage.setItem(KEY, JSON.stringify(DATA)); } catch (e) {
+      var m = $("s-msg"); if (m) { m.className = "msg"; m.textContent = "Impossible d'enregistrer sur cet appareil. Vérifie qu'il reste de la place."; }
+    }
+  }
+
+  /* ============================================================
+     PLANNING
+     ============================================================ */
+  var T0 = ds(new Date());
+  var PLAN_MIN = "2026-11", PLAN_MAX = "2027-12";
+  var YM, MS, ME, DAYS = [];
+  function setMonth(ym) {
+    YM = ym; MS = ym + "-01";
+    var p = ym.split("-").map(Number);
+    ME = ym + "-" + pad(new Date(p[0], p[1], 0).getDate());
+    DAYS = [];
+    for (var d = MS; d <= ME; d = addDays(d, 1)) DAYS.push(d);
+  }
+  var startYM = ymOf(T0);
+  if (startYM < PLAN_MIN) startYM = PLAN_MIN;
+  if (startYM > PLAN_MAX) startYM = PLAN_MAX;
+  setMonth(startYM);
+
+  var CATS = [
+    ["routine", "Routine du quotidien"],
+    ["menage", "Ménage"],
+    ["linge", "Linge"],
+    ["dehors", "Extérieur et garage"],
+    ["voiture", "Voiture"],
+    ["papiers", "Budget, papiers, PC"],
+    ["emploi", "Recherche d'emploi"],
+    ["rdv", "Rendez-vous ou imprévu"]
+  ];
+  var CATMAP = {};
+  CATS.forEach(function (c) { CATMAP[c[0]] = { key: c[0], name: c[1], color: "var(--k-" + c[0] + ")" }; });
+
+  var WD = [1, 2, 3, 4, 5], ALL = [0, 1, 2, 3, 4, 5, 6];
+  /* dow = jours de la semaine (0 = dimanche), nth = quel jour du mois (1er, 2e...), last = dernier du mois, dates = dates précises */
+  var TPL = [
+    { k: "hab", l: "S'habiller, se laver, faire le lit, aérer la chambre", p: "10:00", d: 20, c: "routine", dow: ALL },
+    { k: "robot", l: "Lancer le robot aspirateur (salon, cuisine, couloir)", p: "10:20", d: 5, c: "menage", dow: ALL },
+    { k: "emploi", l: "Recherche d'emploi : offres, candidatures, relances", p: "10:30", d: 60, c: "emploi", dow: WD },
+    { k: "vmidi", l: "Vaisselle et table après le déjeuner", p: "14:00", d: 15, c: "routine", dow: ALL },
+    { k: "range", l: "Ronde de rangement : ce qui traîne retourne à sa place", p: "16:40", d: 10, c: "routine", dow: ALL },
+    { k: "vsoir", l: "Après le dîner : vaisselle, plan de travail, table", p: "21:30", d: 20, c: "routine", dow: ALL },
+    { k: "poub", l: "Sortir les poubelles (vérifie les jours de collecte)", p: "16:30", d: 5, c: "routine", dow: [1, 4] },
+    { k: "dust", l: "Dépoussiérer : salon, télé, étagères, rebords", p: "14:30", d: 25, c: "menage", dow: [1] },
+    { k: "cuis", l: "Cuisine : plaques, évier, façades des placards", p: "14:30", d: 30, c: "menage", dow: [2] },
+    { k: "sdb", l: "Salle de bain : douche, lavabo, miroir, sol", p: "14:30", d: 30, c: "menage", dow: [3] },
+    { k: "toil", l: "Toilettes (10 minutes chrono, avec de la musique)", p: "15:00", d: 10, c: "menage", dow: [3, 6] },
+    { k: "feuA", l: "Ramasser les feuilles mortes devant et dans l'allée", p: "15:30", d: 20, c: "dehors", dow: [3] },
+    { k: "rep", l: "Repassage : t-shirts et pantalons", p: "14:15", d: 45, c: "linge", dow: [4] },
+    { k: "parq", l: "Chambres et bureau : balai, puis serpillière bien essorée sur le parquet", p: "15:15", d: 30, c: "menage", dow: [4] },
+    { k: "sols", l: "Carrelage : balai puis serpillière (salon, cuisine, couloir)", p: "14:30", d: 35, c: "menage", dow: [5] },
+    { k: "frigo", l: "Frigo : vérifier les dates, jeter ce qui est périmé", p: "15:10", d: 15, c: "menage", dow: [5] },
+    { k: "gar", l: "Garage-buanderie : remettre en ordre et balayer", p: "14:45", d: 20, c: "dehors", dow: [6] },
+    { k: "herb", l: "Allée : arracher les mauvaises herbes", p: "15:15", d: 30, c: "dehors", dow: [6] },
+    { k: "bac", l: "Vider et nettoyer le bac du robot aspirateur", p: "15:50", d: 10, c: "menage", dow: [6] },
+    { k: "feuB", l: "Ramasser les feuilles mortes", p: "14:30", d: 30, c: "dehors", dow: [0] },
+    { k: "chb", l: "Ta chambre : bureau, tiroirs, linge sale au panier", p: "15:00", d: 20, c: "menage", dow: [0] },
+    { k: "budg", l: "Point budget de la semaine : dépenses, solde, épargne", p: "20:00", d: 20, c: "papiers", dow: [0] },
+    { k: "sem", l: "Préparer la semaine : candidatures, rendez-vous, tâches décalées", p: "20:20", d: 15, c: "emploi", dow: [0] },
+    { k: "vit", l: "Vitres et miroirs : salon, chambres, salle de bain", p: "15:30", d: 30, c: "menage", dow: [0], nth: [2, 4] },
+    { k: "micro", l: "Micro-ondes et petit électroménager : intérieur et dessus", p: "15:30", d: 20, c: "menage", dow: [0], nth: [3, 5] },
+    { k: "budm", l: "Budget du mois : revenus, charges (assurance auto, essence, abonnements), objectif d'épargne", p: "11:30", d: 30, c: "papiers", dow: [1], nth: [1] },
+    { k: "abo", l: "Abonnements : garder Spotify et CapCut ou arrêter, selon le budget", p: "15:00", d: 15, c: "papiers", dow: [1], nth: [1] },
+    { k: "four", l: "Four et hotte : nettoyage complet", p: "15:10", d: 40, c: "menage", dow: [2], nth: [1] },
+    { k: "detart", l: "Détartrer la bouilloire, les robinets et le pommeau de douche", p: "15:45", d: 30, c: "menage", dow: [4], nth: [1] },
+    { k: "lavfil", l: "Machine à laver : nettoyer le filtre et le joint, cycle à vide à 60 °C", p: "11:30", d: 20, c: "linge", dow: [5], nth: [1] },
+    { k: "robfil", l: "Robot aspirateur : brosse, filtre et capteurs", p: "15:30", d: 15, c: "menage", dow: [5], nth: [1] },
+    { k: "vet", l: "Trier tes vêtements : garder, donner, jeter", p: "15:50", d: 30, c: "menage", dow: [2], nth: [2] },
+    { k: "stock", l: "Stocks : produits ménagers, sacs poubelle, éponges, papier toilette. Noter ce qui manque pour les courses", p: "11:30", d: 15, c: "menage", dow: [4], nth: [2] },
+    { k: "pap", l: "Papiers : trier et classer CV, contrats et documents de banque", p: "11:30", d: 30, c: "papiers", dow: [5], nth: [2] },
+    { k: "pc", l: "PC : dépoussiérer le boîtier et les ventilateurs, mises à jour, sauvegarde des fichiers", p: "15:50", d: 45, c: "papiers", dow: [2], nth: [4] },
+    { k: "dessous", l: "Aspirer sous et derrière les meubles (salon, chambres)", p: "15:50", d: 45, c: "menage", dow: [4], nth: [4] },
+    { k: "bilan", l: "Bilan du mois : dépenses par catégorie, épargne faite, objectifs du mois suivant", p: "20:00", d: 45, c: "papiers", dow: [6], last: true },
+    { k: "chom", l: "Fin du chômage : date du dernier versement et démarches à faire", p: "15:15", d: 20, c: "papiers", dates: ["2026-11-02"] },
+    { k: "astra1", l: "Astra : remettre le plafonnier qui pend", p: "15:15", d: 30, c: "voiture", dates: ["2026-11-09"] },
+    { k: "astra2", l: "Astra : vérifier les niveaux (huile, lave-glace, refroidissement) et la pression des pneus", p: "15:15", d: 30, c: "voiture", dates: ["2026-11-16"] },
+    { k: "astra3", l: "Astra : régler le phare gauche", p: "16:00", d: 30, c: "voiture", dates: ["2026-11-18"] },
+    { k: "mezz", l: "Mezzanine du garage : trier, jeter, ranger", p: "11:30", d: 45, c: "dehors", dates: ["2026-11-19"] },
+    { k: "astra4", l: "Astra : demander 2 ou 3 devis pour les pneus et les disques de frein", p: "11:30", d: 30, c: "voiture", dates: ["2026-11-20"] },
+    { k: "astra5", l: "Astra : changer la sono (si le budget le permet)", p: "15:50", d: 60, c: "voiture", dates: ["2026-11-25"] },
+    { k: "astra6", l: "Astra : prendre rendez-vous au garage pour les pneus et les disques de frein", p: "11:30", d: 15, c: "voiture", dates: ["2026-11-27"] }
+  ];
+  var LAUNDRY = { 1: "tes vêtements", 2: "les tenues de travail de ton père", 3: "serviettes et torchons", 5: "couleurs et linge mélangé", 6: "draps et literie" };
+
+  function matches(t, date, dow, nth, isLast) {
+    if (t.dates) return t.dates.indexOf(date) >= 0;
+    if (t.dow.indexOf(dow) < 0) return false;
+    if (t.nth && t.nth.indexOf(nth) < 0) return false;
+    if (t.last && !isLast) return false;
+    return true;
+  }
+
+  var WIN = [[600, 720], [810, 1050], [1200, 1410]];
+  var LAY = {}, ALLT = [];
+
+  function mk(id, label, p, d, c, date) {
+    return { id: id, label: label, pref: toMin(p), dur: d, cat: c, date: date, fixed: false, custom: false };
+  }
+  function effective() {
+    var out = [];
+    DAYS.forEach(function (date) {
+      var dt = pd(date), dow = dt.getDay(), dom = dt.getDate();
+      var nth = Math.ceil(dom / 7), isLast = dom + 7 > DAYS.length;
+      TPL.forEach(function (t) {
+        if (matches(t, date, dow, nth, isLast)) out.push(mk(t.k + "@" + date, t.l, t.p, t.d, t.c, date));
+      });
+      var lv = LAUNDRY[dow];
+      if (lv) {
+        out.push(mk("lm@" + date, "Lancer une machine : " + lv, "10:25", 5, "linge", date));
+        out.push(mk("ls@" + date, "Sortir le linge, l'étendre ou le mettre au sèche-linge", "14:15", 10, "linge", date));
+        out.push(mk("lp@" + date, "Plier et ranger le linge propre", "16:00", 15, "linge", date));
+      }
+    });
+    var res = [];
+    out.forEach(function (t) {
+      if (S.hidden[t.id]) return;
+      var m = S.moved[t.id];
+      if (m) {
+        t.date = m.date;
+        if (m.time) { t.pref = toMin(m.time); t.fixed = true; }
+      }
+      res.push(t);
+    });
+    S.custom.forEach(function (c) {
+      res.push({
+        id: c.id, label: c.label, pref: c.time ? toMin(c.time) : null, dur: c.dur,
+        cat: c.cat, date: c.date, fixed: !!c.time, custom: true
+      });
+    });
+    return res;
+  }
+  function findSlot(placed, from, dur) {
+    for (var s = from; s <= 1410 - dur; s += 5) {
+      var inWin = WIN.some(function (w) { return s >= w[0] && s + dur <= w[1]; });
+      if (!inWin) continue;
+      var clash = placed.some(function (p) { return s < p.end && s + dur > p.start; });
+      if (clash) continue;
+      return s;
+    }
+    return null;
+  }
+  function layoutDay(tasks) {
+    var placed = [];
+    tasks.forEach(function (t) {
+      if (t.fixed) placed.push(Object.assign({}, t, { start: t.pref, end: t.pref + t.dur, overflow: false }));
+    });
+    var flex = tasks.filter(function (t) { return !t.fixed; }).map(function (t, i) {
+      return Object.assign({}, t, { ord: i });
+    });
+    flex.sort(function (a, b) {
+      var pa = a.pref == null ? 5000 : a.pref, pb = b.pref == null ? 5000 : b.pref;
+      return (pa - pb) || (a.ord - b.ord);
+    });
+    var over = [];
+    flex.forEach(function (t) {
+      var s = findSlot(placed, t.pref == null ? 600 : t.pref, t.dur);
+      if (s == null) { t.start = null; t.end = null; t.overflow = true; over.push(t); }
+      else { t.start = s; t.end = s + t.dur; t.overflow = false; placed.push(t); }
+    });
+    placed.sort(function (a, b) { return (a.start - b.start) || (a.dur - b.dur); });
+    return placed.concat(over);
+  }
+  function compute() {
+    var by = {};
+    DAYS.forEach(function (d) { by[d] = []; });
+    effective().forEach(function (t) { if (by[t.date]) by[t.date].push(t); });
+    LAY = {}; ALLT = [];
+    DAYS.forEach(function (d) { LAY[d] = layoutDay(by[d]); ALLT = ALLT.concat(LAY[d]); });
+  }
+  function dayStats(date) {
+    var n = 0, dn = 0, min = 0, dmin = 0;
+    (LAY[date] || []).forEach(function (t) {
+      n++; min += t.dur;
+      if (S.done[t.id]) { dn++; dmin += t.dur; }
+    });
+    return { n: n, dn: dn, min: min, dmin: dmin };
+  }
+  function findTask(id) { return ALLT.filter(function (t) { return t.id === id; })[0]; }
+
+  var sel = (T0 >= MS && T0 <= ME) ? T0 : MS;
+  var showMonth = false;
+  var openRow = null;
+
+  function moveTask(id, date, time) {
+    var c = S.custom.filter(function (x) { return x.id === id; })[0];
+    if (c) { c.date = date; c.time = time || null; }
+    else { S.moved[id] = { date: date, time: time || null }; }
+    persist();
+  }
+  function removeTask(id) {
+    var before = S.custom.length;
+    S.custom = S.custom.filter(function (x) { return x.id !== id; });
+    if (S.custom.length === before) S.hidden[id] = 1;
+    delete S.done[id];
+    persist();
+  }
+  function toggleDone(id, v) {
+    if (v) S.done[id] = 1; else delete S.done[id];
+    persist(); renderPlanning();
+  }
+  function syncPlanForm() {
+    $("f-date").min = MS; $("f-date").max = ME; $("f-date").value = sel;
+  }
+  function selectDay(date) {
+    if (date < MS || date > ME) return;
+    sel = date; openRow = null;
+    $("f-date").value = date;
+    renderPlanning();
+  }
+  function changeMonth(n) {
+    var ym = addMonths(YM, n);
+    if (ym < PLAN_MIN || ym > PLAN_MAX) return;
+    setMonth(ym);
+    sel = (T0 >= MS && T0 <= ME) ? T0 : MS;
+    openRow = null;
+    syncPlanForm();
+    renderPlanning();
+  }
+
+  function renderPlanHeader() {
+    var tot = 0, done = 0;
+    ALLT.forEach(function (t) { tot += t.dur; if (S.done[t.id]) done += t.dur; });
+    $("sum").innerHTML = "<b>" + fmtDur(tot) + "</b> de tâches ce mois-ci · <b>" + fmtDur(done) + "</b> déjà faites";
+    $("eyebrow").textContent = T0 < MS ? monthLabel(YM) + " · départ le " + longDay(MS).toLowerCase() : monthLabel(YM);
+    $("calh").textContent = monthLabel(YM).split(" ")[0];
+    $("pm-prev").disabled = addMonths(YM, -1) < PLAN_MIN;
+    $("pm-next").disabled = addMonths(YM, 1) > PLAN_MAX;
+  }
+
+  function renderCal() {
+    var gridStart = addDays(MS, -((pd(MS).getDay() + 6) % 7));
+    var weeks = [];
+    for (var w = 0; ; w++) {
+      var ws = addDays(gridStart, 7 * w);
+      if (ws > ME) break;
+      var wk = [];
+      for (var k = 0; k < 7; k++) wk.push(addDays(ws, k));
+      weeks.push(wk);
+    }
+    var vis = showMonth ? weeks : weeks.filter(function (wk) { return wk.indexOf(sel) >= 0; });
+    var html = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"].map(function (n) { return '<div class="hd">' + n + "</div>"; }).join("");
+    vis.forEach(function (wk) {
+      wk.forEach(function (date) {
+        var inR = date >= MS && date <= ME;
+        if (!inR) { html += '<button class="cell off" type="button" disabled aria-hidden="true" tabindex="-1"><span>' + pd(date).getDate() + "</span></button>"; return; }
+        var st = dayStats(date);
+        var pct = st.min ? Math.round(100 * st.dmin / st.min) : 0;
+        var cls = "cell" + (date === sel ? " sel" : "") + (date === T0 ? " today" : "");
+        html += '<button class="' + cls + '" type="button" data-act="day" data-date="' + date + '"' +
+          (date === sel ? ' aria-pressed="true"' : ' aria-pressed="false"') + (date === T0 ? ' aria-current="date"' : "") +
+          ' aria-label="' + esc(longDay(date) + ", " + st.dn + " tâches faites sur " + st.n) + '">' +
+          "<span>" + pd(date).getDate() + '</span><span class="bar"><i style="width:' + pct + '%"></i></span></button>';
+      });
+    });
+    $("cal").innerHTML = html;
+    $("monthbtn").textContent = showMonth ? "Réduire" : "Voir le mois";
+  }
+
+  function rowHtml(t) {
+    var done = !!S.done[t.id];
+    var cat = CATMAP[t.cat] || CATMAP.routine;
+    var id = esc(t.id);
+    var open = openRow === t.id;
+    var nd = addDays(t.date, 1);
+    var h = '<li class="row' + (done ? " done" : "") + '">' +
+      '<input type="checkbox" id="cb-' + id + '" data-id="' + id + '"' + (done ? " checked" : "") + ">" +
+      '<div class="when"><span class="t">' + (t.overflow ? "—" : fmt(t.start)) + '</span><span class="m">' + fmtDur(t.dur) + "</span></div>" +
+      '<label class="what" for="cb-' + id + '"><span class="lbl">' + esc(t.label) + "</span>" +
+      '<span class="chip"><i style="background:' + cat.color + '"></i>' + esc(cat.name) + (t.fixed ? " · heure fixe" : "") + "</span>" +
+      (t.overflow ? '<span class="warn">Pas de créneau libre ce jour. Décale-la.</span>' : "") + "</label>" +
+      '<button class="more" type="button" id="mb-' + id + '" data-act="more" data-id="' + id + '" aria-expanded="' + open + '" aria-label="Options : ' + esc(t.label) + '">' +
+      '<svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><circle cx="3" cy="9" r="1.7" fill="currentColor"/><circle cx="9" cy="9" r="1.7" fill="currentColor"/><circle cx="15" cy="9" r="1.7" fill="currentColor"/></svg></button>';
+    if (open) {
+      h += '<div class="opts">' +
+        (nd <= ME ? '<button class="btn" type="button" data-act="tomorrow" data-id="' + id + '">Demain</button>' : "") +
+        '<label>Jour<input type="date" min="' + MS + '" max="' + ME + '" value="' + t.date + '" data-change="date" data-id="' + id + '"></label>' +
+        '<label>Heure<input type="time" value="' + (t.fixed && t.start != null ? fmt(t.start) : "") + '" data-change="time" data-id="' + id + '"></label>' +
+        (t.fixed ? '<button class="btn" type="button" data-act="auto" data-id="' + id + '">Heure automatique</button>' : "") +
+        '<button class="btn danger" type="button" data-act="remove" data-id="' + id + '">Retirer</button></div>';
+    }
+    return h + "</li>";
+  }
+
+  function renderDay() {
+    var ae = document.activeElement && document.activeElement.id;
+    var list = LAY[sel] || [];
+    var st = dayStats(sel);
+    var pct = st.min ? Math.round(100 * st.dmin / st.min) : 0;
+    var left = st.min - st.dmin;
+    var deferable = list.filter(function (t) { return !S.done[t.id] && !t.fixed; }).length;
+    var html = '<div class="dayhead"><h2>' + esc(longDay(sel)) + (sel === T0 ? '<span class="today-tag">AUJOURD\'HUI</span>' : "") + "</h2>" +
+      '<button class="nav" type="button" data-act="prev" aria-label="Jour précédent"' + (sel <= MS ? " disabled" : "") + ">‹</button>" +
+      '<button class="nav" type="button" data-act="next" aria-label="Jour suivant"' + (sel >= ME ? " disabled" : "") + ">›</button></div>" +
+      '<p class="daymeta">' + st.dn + " faites sur " + st.n + " · " + (left > 0 ? "il reste " + fmtDur(left) : "rien à faire") + " · " + fmtDur(st.min) + " au total</p>" +
+      '<div class="prog" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '" aria-label="Avancement de la journée"><i style="width:' + pct + '%"></i></div>';
+    if (st.n > 0 && st.dn === st.n) html += '<p class="win">Journée bouclée. Le PC est à toi.</p>';
+    if (deferable > 0 && sel < ME) {
+      html += '<div class="dayactions"><button class="btn ghost" type="button" data-act="defer-all">Tout reporter à demain (' + deferable + ")</button></div>";
+    }
+    html += '<ul class="rows">' + list.map(rowHtml).join("") + "</ul>";
+    $("day").innerHTML = html;
+    if (ae) { var el = document.getElementById(ae); if (el) el.focus(); }
+  }
+
+  function renderPlanTotals() {
+    var per = {}, tot = 0;
+    CATS.forEach(function (c) { per[c[0]] = { m: 0, d: 0 }; });
+    ALLT.forEach(function (t) {
+      var p = per[t.cat] || per.routine;
+      p.m += t.dur; tot += t.dur;
+      if (S.done[t.id]) p.d += t.dur;
+    });
+    var max = 0;
+    CATS.forEach(function (c) { if (per[c[0]].m > max) max = per[c[0]].m; });
+    $("totsum").innerHTML = "<b>" + fmtDur(tot) + "</b> estimées sur le mois, environ " + fmtDur(Math.round(tot / DAYS.length)) + " par jour.";
+    var html = "";
+    CATS.forEach(function (c) {
+      var p = per[c[0]];
+      if (!p.m) return;
+      var w = Math.round(100 * p.m / max), dw = Math.round(100 * p.d / max);
+      html += '<li><span class="nm"><i style="background:var(--k-' + c[0] + ')"></i>' + esc(c[1]) + "</span>" +
+        '<span class="tr" aria-hidden="true"><b style="width:' + w + "%;background:var(--k-" + c[0] + ')"></b><i style="width:' + dw + "%;background:var(--k-" + c[0] + ')"></i></span>' +
+        '<span class="tv">' + fmtDur(p.m) + "</span></li>";
+    });
+    $("tot").innerHTML = html;
+    $("restorebtn").hidden = Object.keys(S.hidden).length === 0;
+  }
+
+  function renderPlanning() {
+    compute();
+    renderPlanHeader();
+    renderCal();
+    renderDay();
+    renderPlanTotals();
+  }
+
+  $("f-cat").innerHTML = CATS.map(function (c) {
+    return '<option value="' + c[0] + '"' + (c[0] === "menage" ? " selected" : "") + ">" + esc(c[1]) + "</option>";
+  }).join("");
+  syncPlanForm();
+
+  $("addform").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var msg = $("f-msg");
+    msg.className = "msg";
+    var label = $("f-label").value.trim();
+    var cat = $("f-cat").value;
+    var date = $("f-date").value;
+    var time = $("f-time").value;
+    var dur = parseInt($("f-dur").value, 10) || 30;
+    if (!label) { msg.textContent = "Écris ce que tu dois faire."; return; }
+    if (!date || date < MS || date > ME) { msg.textContent = "Choisis un jour dans " + monthLabel(YM).toLowerCase() + "."; return; }
+    if (cat === "rdv" && !time) { msg.textContent = "Indique l'heure du rendez-vous."; return; }
+    S.custom.push({ id: "c" + Date.now().toString(36) + Math.floor(Math.random() * 1296).toString(36), label: label, cat: cat, date: date, time: time || null, dur: dur });
+    persist();
+    $("f-label").value = "";
+    $("f-time").value = "";
+    msg.className = "msg good";
+    msg.textContent = "Ajouté le " + longDay(date).toLowerCase() + ".";
+    selectDay(date);
+  });
+
+  /* ============================================================
+     BUDGET
+     ============================================================ */
+  var CAT_OUT = [
+    ["essence", "Essence"], ["voiture", "Voiture"], ["abo", "Abonnements"], ["courses", "Courses"],
+    ["bouffe", "Restos et snacks"], ["loisirs", "Sorties et loisirs"], ["jeux", "Jeux et PC"],
+    ["vetements", "Vêtements"], ["autre", "Autre"]
+  ];
+  var CAT_IN = [
+    ["chomage", "Chômage"], ["salaire", "Salaire"], ["famille", "Aide ou cadeau de la famille"],
+    ["vente", "Vente"], ["autre", "Autre"]
+  ];
+  var BCOL = { essence: "var(--k-voiture)", voiture: "var(--k-voiture)", abo: "var(--k-linge)", courses: "var(--k-dehors)", bouffe: "var(--k-papiers)", loisirs: "var(--k-menage)", jeux: "var(--k-routine)", vetements: "var(--k-rdv)", autre: "var(--muted)" };
+  var BYM = ymOf(T0);
+  var btype = "out";
+  var bconfirm = null;
+
+  function catName(t) {
+    if (t.type === "save") return "Épargne";
+    var list = t.type === "in" ? CAT_IN : CAT_OUT;
+    var f = list.filter(function (c) { return c[0] === t.cat; })[0];
+    return f ? f[1] : "Autre";
+  }
+  function sums(list) {
+    var s = { "in": 0, out: 0, save: 0 };
+    list.forEach(function (t) { s[t.type] += t.cents; });
+    return s;
+  }
+  function fillBudgetCats() {
+    var list = btype === "in" ? CAT_IN : CAT_OUT;
+    $("b-cat").innerHTML = list.map(function (c) { return '<option value="' + c[0] + '">' + esc(c[1]) + "</option>"; }).join("");
+    $("b-catf").hidden = btype === "save";
+    var btns = document.querySelectorAll(".seg button");
+    for (var i = 0; i < btns.length; i++) btns[i].setAttribute("aria-pressed", btns[i].dataset.v === btype ? "true" : "false");
+  }
+
+  function renderBudget() {
+    var b = DATA.budget;
+    var all = sums(b.tx);
+    var avail = b.start + all["in"] - all.out - all.save;
+    var av = $("b-avail");
+    av.textContent = money(avail);
+    av.className = "bigmoney" + (avail < 0 ? " neg" : "");
+    $("b-avail-sub").textContent = "Épargné au total : " + money(all.save) +
+      (b.start === 0 && !b.tx.length ? " · Entre ton solde de départ dans les réglages du budget, plus bas." : "");
+
+    $("b-month").textContent = monthLabel(BYM);
+    var list = b.tx.filter(function (t) { return ymOf(t.date) === BYM; });
+    var s = sums(list);
+    $("b-in").textContent = money(s["in"]);
+    $("b-out").textContent = money(s.out);
+    $("b-save").textContent = money(s.save);
+    var rest = s["in"] - s.out - s.save;
+    $("b-rest").innerHTML = "Reste du mois : <b style=\"color:" + (rest < 0 ? "var(--out)" : "var(--ink)") + "\">" + money(rest) + "</b>";
+    if (b.goal > 0) {
+      var gp = Math.min(100, Math.round(100 * s.save / b.goal));
+      $("b-goal").hidden = false;
+      $("b-goal-txt").textContent = "Épargne du mois : " + money(s.save) + " sur " + money(b.goal) + " visés";
+      var bar = $("b-goal-bar");
+      bar.setAttribute("aria-valuenow", gp);
+      bar.firstElementChild.style.width = gp + "%";
+    } else {
+      $("b-goal").hidden = true;
+    }
+
+    // sorties par catégorie
+    var per = {}, max = 0;
+    list.forEach(function (t) {
+      if (t.type !== "out") return;
+      per[t.cat] = (per[t.cat] || 0) + t.cents;
+    });
+    var keys = Object.keys(per).sort(function (a, c) { return per[c] - per[a]; });
+    keys.forEach(function (k) { if (per[k] > max) max = per[k]; });
+    $("b-cats").innerHTML = keys.length ? keys.map(function (k) {
+      var f = CAT_OUT.filter(function (c) { return c[0] === k; })[0];
+      var col = BCOL[k] || "var(--muted)";
+      return '<li><span class="nm"><i style="background:' + col + '"></i>' + esc(f ? f[1] : "Autre") + "</span>" +
+        '<span class="tr" aria-hidden="true"><i style="width:' + Math.round(100 * per[k] / max) + "%;background:" + col + '"></i></span>' +
+        '<span class="tv">' + money(per[k]) + "</span></li>";
+    }).join("") : '<li><span class="empty">Aucune sortie ce mois-ci.</span></li>';
+
+    // mouvements groupés par jour
+    var sorted = list.slice().sort(function (a, c) { return a.date < c.date ? 1 : a.date > c.date ? -1 : (a.id < c.id ? 1 : -1); });
+    var groups = [], cur = null;
+    sorted.forEach(function (t) {
+      if (!cur || cur.date !== t.date) { cur = { date: t.date, items: [] }; groups.push(cur); }
+      cur.items.push(t);
+    });
+    $("b-list").innerHTML = groups.length ? groups.map(function (g) {
+      return '<div class="dg"><h3>' + esc(longDay(g.date)) + '</h3><ul class="tx">' + g.items.map(function (t) {
+        var sign = t.type === "in" ? "+" : t.type === "out" ? "−" : "→";
+        var title = t.label ? esc(t.label) : esc(catName(t));
+        var sub = t.label ? esc(catName(t)) : (t.type === "save" ? "Mis de côté" : "");
+        var tail = bconfirm === t.id
+          ? '<span class="ask">Supprimer ? <button class="btn danger" type="button" data-act="b-del-yes" data-id="' + esc(t.id) + '">Oui</button><button class="btn ghost" type="button" data-act="b-del-no">Non</button></span>'
+          : '<button class="x" type="button" data-act="b-del" data-id="' + esc(t.id) + '" aria-label="Supprimer : ' + title + '">Suppr.</button>';
+        return '<li><div class="w"><b>' + title + "</b>" + (sub ? "<span>" + sub + "</span>" : "") + "</div>" +
+          '<span class="a ' + t.type + '">' + sign + " " + money(t.cents) + "</span>" + tail + "</li>";
+      }).join("") + "</ul></div>";
+    }).join("") : '<p class="hint">Rien de noté pour ce mois-ci. Ajoute ta première entrée ou sortie plus haut.</p>';
+
+    var st = $("b-start"), gl = $("b-goalin");
+    if (document.activeElement !== st) st.value = inputMoney(b.start);
+    if (document.activeElement !== gl) gl.value = inputMoney(b.goal);
+  }
+
+  $("b-date").value = T0;
+  fillBudgetCats();
+
+  $("b-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var msg = $("b-msg");
+    msg.className = "msg";
+    var cents = parseMoney($("b-amt").value);
+    var date = $("b-date").value;
+    if (cents == null || cents <= 0) { msg.textContent = "Écris un montant supérieur à zéro, par exemple 12,50."; return; }
+    if (cents > 100000000) { msg.textContent = "Ce montant est trop grand."; return; }
+    if (!date) { msg.textContent = "Choisis un jour."; return; }
+    var tx = {
+      id: "t" + Date.now().toString(36) + Math.floor(Math.random() * 1296).toString(36),
+      date: date, type: btype, cat: btype === "save" ? "epargne" : $("b-cat").value,
+      cents: cents, label: $("b-label").value.trim()
+    };
+    DATA.budget.tx.push(tx);
+    persist();
+    $("b-amt").value = "";
+    $("b-label").value = "";
+    BYM = ymOf(date);
+    msg.className = "msg good";
+    msg.textContent = (btype === "in" ? "Entrée" : btype === "out" ? "Sortie" : "Épargne") + " de " + money(cents) + " ajoutée.";
+    renderBudget();
+  });
+
+  $("b-start").addEventListener("change", function () {
+    var c = parseMoney(this.value), m = $("b-setmsg");
+    if (this.value.trim() === "") c = 0;
+    if (c == null) { m.className = "msg"; m.textContent = "Écris un montant, par exemple 350,00."; return; }
+    DATA.budget.start = c; persist();
+    m.className = "msg good"; m.textContent = "Solde de départ enregistré.";
+    renderBudget();
+  });
+  $("b-goalin").addEventListener("change", function () {
+    var c = parseMoney(this.value), m = $("b-setmsg");
+    if (this.value.trim() === "") c = 0;
+    if (c == null || c < 0) { m.className = "msg"; m.textContent = "Écris un montant, par exemple 100,00."; return; }
+    DATA.budget.goal = c; persist();
+    m.className = "msg good"; m.textContent = "Objectif d'épargne enregistré.";
+    renderBudget();
+  });
+
+  /* ============================================================
+     RÉGLAGES
+     ============================================================ */
+  function isStandalone() {
+    return window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches);
+  }
+  function renderSettings() {
+    $("s-install").innerHTML = isStandalone()
+      ? "<p><b>L'application est installée.</b> Tu la lances depuis l'icône sur l'écran d'accueil et elle marche sans connexion.</p>"
+      : "<p><b>Pour l'installer sur ton iPhone :</b></p>" +
+        '<ol class="steps"><li>Ouvre cette page dans <b>Safari</b>.</li>' +
+        "<li>Appuie sur le bouton <b>Partager</b> (le carré avec une flèche vers le haut).</li>" +
+        "<li>Choisis <b>Sur l'écran d'accueil</b>, puis <b>Ajouter</b>.</li></ol>" +
+        '<p class="hint" style="margin-top:12px">Installe l\'application avant de noter ton budget. Les données de Safari et celles de l\'icône sur l\'écran d\'accueil sont séparées.</p>';
+  }
+
+  var restoreArmed = false, wipeArmed = false, armTimer = null;
+  function disarm() {
+    restoreArmed = false; wipeArmed = false;
+    $("s-restorebtn").textContent = "Restaurer";
+    $("s-wipe").textContent = "Tout effacer";
+  }
+  function arm(which) {
+    disarm();
+    if (which === "restore") { restoreArmed = true; $("s-restorebtn").textContent = "Confirmer : remplacer mes données"; }
+    else { wipeArmed = true; $("s-wipe").textContent = "Confirmer : tout effacer"; }
+    clearTimeout(armTimer);
+    armTimer = setTimeout(disarm, 6000);
+  }
+  function sMsg(text, good) { var m = $("s-msg"); m.className = "msg" + (good ? " good" : ""); m.textContent = text; }
+
+  function doBackup() {
+    var text = JSON.stringify({ app: "maison", exported: new Date().toISOString(), data: DATA });
+    var ta = $("s-backup");
+    ta.value = text;
+    var done = function () { sMsg("Sauvegarde copiée. Colle-la dans une note ou un message à toi-même.", true); };
+    var fail = function () { ta.focus(); ta.select(); sMsg("Copie le texte sélectionné ci-dessus.", false); };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fail);
+      else fail();
+    } catch (e) { fail(); }
+  }
+  function doRestore() {
+    var raw = $("s-restore").value.trim();
+    if (!raw) { sMsg("Colle d'abord le texte de ta sauvegarde.", false); return; }
+    if (!restoreArmed) { arm("restore"); sMsg("Appuie encore une fois pour remplacer tes données actuelles.", false); return; }
+    var parsed;
+    try { parsed = JSON.parse(raw); } catch (e) { disarm(); sMsg("Ce texte n'est pas une sauvegarde valide.", false); return; }
+    var data = parsed && parsed.data ? parsed.data : parsed;
+    if (!data || (!data.plan && !data.budget)) { disarm(); sMsg("Ce texte n'est pas une sauvegarde valide.", false); return; }
+    DATA = normAll(data); S = DATA.plan; persist(); disarm();
+    $("s-restore").value = "";
+    renderAll();
+    sMsg("Sauvegarde restaurée.", true);
+  }
+  function doWipe() {
+    if (!wipeArmed) { arm("wipe"); sMsg("Appuie encore une fois pour tout effacer.", false); return; }
+    DATA = blankAll(); S = DATA.plan; persist(); disarm();
+    renderAll();
+    sMsg("Toutes les données ont été effacées.", true);
+  }
+
+  /* ============================================================
+     ONGLETS ET ÉVÉNEMENTS
+     ============================================================ */
+  var tab = "planning";
+  try { var st0 = localStorage.getItem(TAB_KEY); if (st0 === "budget" || st0 === "settings" || st0 === "planning") tab = st0; } catch (e) {}
+
+  function renderAll() {
+    renderPlanning();
+    renderBudget();
+    renderSettings();
+  }
+  function setTab(t, keepScroll) {
+    tab = t;
+    ["planning", "budget", "settings"].forEach(function (n) { $("tab-" + n).hidden = n !== t; });
+    var btns = document.querySelectorAll(".tabbar button");
+    for (var i = 0; i < btns.length; i++) {
+      if (btns[i].dataset.tab === t) btns[i].setAttribute("aria-current", "page"); else btns[i].removeAttribute("aria-current");
+    }
+    try { localStorage.setItem(TAB_KEY, t); } catch (e) {}
+    if (!keepScroll) window.scrollTo(0, 0);
+    if (t === "settings") renderSettings();
+  }
+
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-act]");
+    if (!b) return;
+    var act = b.dataset.act, id = b.dataset.id, t;
+    switch (act) {
+      case "tab": setTab(b.dataset.tab); break;
+      case "day": selectDay(b.dataset.date); break;
+      case "prev": selectDay(addDays(sel, -1)); break;
+      case "next": selectDay(addDays(sel, 1)); break;
+      case "pm-prev": changeMonth(-1); break;
+      case "pm-next": changeMonth(1); break;
+      case "toggle-month": showMonth = !showMonth; renderCal(); break;
+      case "more": openRow = openRow === id ? null : id; renderDay(); break;
+      case "tomorrow":
+        t = findTask(id);
+        if (t) { moveTask(id, addDays(t.date, 1), null); openRow = null; renderPlanning(); }
+        break;
+      case "auto":
+        t = findTask(id);
+        if (t) { moveTask(id, t.date, null); openRow = null; renderPlanning(); }
+        break;
+      case "remove": removeTask(id); openRow = null; renderPlanning(); break;
+      case "defer-all":
+        var nd = addDays(sel, 1);
+        if (nd <= ME) {
+          (LAY[sel] || []).forEach(function (x) { if (!S.done[x.id] && !x.fixed) moveTask(x.id, nd, null); });
+          renderPlanning();
+        }
+        break;
+      case "restore": S.hidden = {}; persist(); renderPlanning(); break;
+      case "btype": btype = b.dataset.v; fillBudgetCats(); break;
+      case "bm-prev": BYM = addMonths(BYM, -1); bconfirm = null; renderBudget(); break;
+      case "bm-next": BYM = addMonths(BYM, 1); bconfirm = null; renderBudget(); break;
+      case "b-del": bconfirm = id; renderBudget(); break;
+      case "b-del-no": bconfirm = null; renderBudget(); break;
+      case "b-del-yes":
+        DATA.budget.tx = DATA.budget.tx.filter(function (x) { return x.id !== id; });
+        bconfirm = null; persist(); renderBudget();
+        break;
+      case "backup": doBackup(); break;
+      case "restore-data": doRestore(); break;
+      case "wipe": doWipe(); break;
+    }
+  });
+
+  document.addEventListener("change", function (e) {
+    var t = e.target, task;
+    if (t.matches('input[type="checkbox"][data-id]')) { toggleDone(t.dataset.id, t.checked); return; }
+    if (t.matches('input[data-change="date"]')) {
+      if (t.value >= MS && t.value <= ME) { moveTask(t.dataset.id, t.value, null); openRow = null; renderPlanning(); }
+      return;
+    }
+    if (t.matches('input[data-change="time"]')) {
+      task = findTask(t.dataset.id);
+      if (task && t.value) { moveTask(task.id, task.date, t.value); openRow = null; renderPlanning(); }
+    }
+  });
+  $("s-restore").addEventListener("input", function () { if (restoreArmed) disarm(); });
+
+  /* ---------- Démarrage ---------- */
+  renderAll();
+  setTab(tab, true);
+
+  if ("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("sw.js").catch(function () {});
+    });
+  }
+})();
+</script>
+</body>
+</html>
