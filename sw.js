@@ -1,5 +1,5 @@
 /* Fait marcher l'application sans connexion. */
-var VERSION = "maison-v1";
+var VERSION = "maison-v2";
 var CORE = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png"];
 
 self.addEventListener("install", function (event) {

@@ -259,6 +259,67 @@ button { cursor: pointer; }
 }
 .tabbar button[aria-current="page"] { color: var(--accent); }
 
+
+/* Frise de la journée */
+.strip { position: relative; height: 22px; margin-top: 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 3px; overflow: hidden; }
+.strip .sw { position: absolute; top: 0; bottom: 0; background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--ok) 45%, transparent) 0 3px, transparent 3px 7px); }
+.strip .sb { position: absolute; top: 3px; bottom: 3px; min-width: 3px; border-radius: 2px; }
+.sticks { display: flex; justify-content: space-between; margin-top: 3px; font-family: var(--fm); font-size: 11px; color: var(--muted); }
+.legend { margin: 8px 0 4px; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.lg { display: inline-block; width: 16px; height: 10px; border-radius: 2px; border: 1px solid var(--line); }
+.lg-free { background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--ok) 55%, transparent) 0 3px, transparent 3px 6px); }
+.lg-busy { background: var(--k-menage); border-color: var(--k-menage); }
+.lg-off { background: var(--bg); }
+.freemeta b { color: var(--ok); font-weight: 600; }
+.row.free { background: color-mix(in srgb, var(--ok) 7%, transparent); }
+.fbox { width: 28px; height: 28px; border: 2px dashed var(--ok); border-radius: 4px; }
+.row.free .lbl { color: var(--ok); font-weight: 600; }
+.more.add { font-size: 24px; line-height: 1; color: var(--accent); font-weight: 600; }
+a.btn { display: inline-flex; align-items: center; justify-content: center; text-align: center; text-decoration: none; min-height: 46px; padding: 8px 14px; }
+a.btn:hover { background: var(--ink); color: var(--bg); }
+.f textarea.plain { font-family: var(--fb); font-size: 16px; }
+.wide-ta { grid-column: 1 / -1; width: 100%; min-height: 160px; padding: 10px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); color: var(--ink); font-family: var(--fm); font-size: 12px; }
+
+/* Questionnaire */
+body.obing { overflow: hidden; }
+.ob { position: fixed; inset: 0; z-index: 100; background: var(--bg); overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.ob-in {
+  max-width: 560px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px;
+  padding-top: max(20px, env(safe-area-inset-top, 0px));
+  padding-bottom: calc(110px + env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.ob h1 { font-size: clamp(36px, 10vw, 52px); }
+.qs { display: flex; flex-direction: column; gap: 22px; }
+.q { display: flex; flex-direction: column; gap: 10px; }
+.ql { font-size: 17px; font-weight: 600; }
+.optgrid { display: flex; flex-wrap: wrap; gap: 8px; }
+.opt { min-height: 46px; padding: 0 16px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); font-weight: 500; font-size: 16px; }
+.opt:hover { border-color: var(--ink); }
+.opt[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
+.tin { width: 100%; min-height: 50px; padding: 0 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); font-size: 16px; color: var(--ink); }
+.tin:focus { border-color: var(--ink); }
+.stp { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 0; border-bottom: 1px solid var(--line); }
+.stpc { display: flex; align-items: center; gap: 14px; }
+.stpc output { min-width: 28px; text-align: center; font-family: var(--fm); font-size: 20px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.stpc .nav { width: 44px; height: 44px; font-size: 22px; }
+.wrow { display: grid; grid-template-columns: minmax(96px, 1fr) auto auto auto; gap: 8px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--line); }
+.wck { display: flex; align-items: center; gap: 10px; font-weight: 500; }
+.wck input { width: 22px; height: 22px; accent-color: var(--accent); }
+.wrow input[type="time"] { min-height: 44px; padding: 0 8px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); font-size: 16px; color: var(--ink); }
+.sumbox { display: flex; flex-direction: column; gap: 12px; }
+.sumbox .big { font-family: var(--fd); font-weight: 800; font-size: 30px; text-transform: uppercase; line-height: 1; }
+.sumbox b { font-variant-numeric: tabular-nums; }
+.ob-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 101; background: var(--surface); border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.ob-barin { max-width: 560px; margin: 0 auto; display: flex; justify-content: space-between; gap: 12px; padding: 12px max(16px, env(safe-area-inset-right, 0px)) 12px max(16px, env(safe-area-inset-left, 0px)); }
+.ob-barin .btn { min-height: 50px; padding: 0 22px; font-size: 16px; }
+.ob-barin .btn.primary { flex: 1; max-width: 280px; }
+
 @media (min-width: 560px) {
   .addform { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
@@ -318,6 +379,25 @@ button { cursor: pointer; }
       <p class="msg" id="f-msg" role="status"></p>
       <p class="hint">Sans heure, la tâche prend le premier créneau libre du jour. Avec une heure, elle reste fixe et le reste du jour se range autour.</p>
     </form>
+  </section>
+
+  <section aria-labelledby="aih">
+    <div class="sechead"><h2 id="aih">Adapter avec l'IA</h2></div>
+    <div class="addform">
+      <p class="hint" style="grid-column:1/-1">Décris ce que tu veux changer. L'app prépare un message pour Claude. Colle sa réponse plus bas et les changements s'appliquent.</p>
+      <label class="f wide"><span>1. Ta demande</span>
+        <textarea id="ai-req" class="plain" maxlength="1500" placeholder="Pas de bruit avant 11 h, décale le ménage à l'après-midi. Ajoute un dentiste jeudi à 14 h."></textarea>
+      </label>
+      <button class="btn" type="button" data-act="ai-copy" style="grid-column:1/-1">2. Copier la demande pour l'IA</button>
+      <textarea id="ai-prompt" class="mono wide-ta" readonly hidden aria-label="Demande à copier"></textarea>
+      <a class="btn" href="https://claude.ai/new" target="_blank" rel="noopener" style="grid-column:1/-1">3. Ouvrir Claude, coller, puis copier sa réponse</a>
+      <label class="f wide"><span>4. Réponse de l'IA</span>
+        <textarea id="ai-resp" placeholder="Colle ici la réponse de Claude"></textarea>
+      </label>
+      <button class="btn primary" type="button" data-act="ai-apply">5. Appliquer les changements</button>
+      <button class="btn ghost" type="button" data-act="ai-undo" id="ai-undo" hidden>Annuler la dernière adaptation</button>
+      <p class="msg" id="ai-msg" role="status"></p>
+    </div>
   </section>
 
   <section aria-labelledby="toth">
@@ -421,6 +501,12 @@ button { cursor: pointer; }
   </header>
 
   <section>
+    <div class="sechead"><h2>Mon profil</h2></div>
+    <p class="hint" id="s-profile" style="margin-bottom:14px"></p>
+    <button class="btn" type="button" data-act="ob-open">Refaire le questionnaire</button>
+  </section>
+
+  <section>
     <div class="sechead"><h2>Installation</h2></div>
     <div class="card" id="s-install"></div>
   </section>
@@ -447,6 +533,8 @@ button { cursor: pointer; }
     <button class="btn danger" type="button" data-act="wipe" id="s-wipe">Tout effacer</button>
   </section>
 </section>
+
+<div class="ob" id="ob" hidden role="dialog" aria-modal="true" aria-label="Questionnaire de départ"></div>
 
 <nav class="tabbar" aria-label="Sections">
   <button type="button" data-act="tab" data-tab="planning" aria-current="page">
@@ -508,11 +596,55 @@ button { cursor: pointer; }
   }
   function inputMoney(c) { return c ? (c / 100).toFixed(2).replace(".", ",") : ""; }
 
+  /* ---------- Profil (réponses du questionnaire) ---------- */
+  var DEFAULT_P = {
+    name: "", home: "appart", bedrooms: 2, office: false, baths: 1, toilets: 1,
+    outdoor: [], plants: false, floors: ["carrelage"], people: 2, kids: false, pets: [],
+    equip: [], machines: 3, ironing: "some",
+    groups: ["vaisselle", "menage", "linge", "exterieur", "animaux", "plantes"],
+    level: 2,
+    days: [0, 1, 2, 3, 4, 5, 6], weekendOff: false,
+    win: [{ on: true, a: "10:00", b: "12:00" }, { on: true, a: "13:30", b: "17:30" }, { on: true, a: "20:00", b: "23:30" }],
+    vehicles: [], job: false, jobMin: 60, budgetOn: true, weeklyBudget: true, start: "", goal: ""
+  };
+  function clampInt(v, lo, hi, dflt) {
+    var n = Math.round(Number(v));
+    if (!isFinite(n)) return dflt;
+    return Math.min(hi, Math.max(lo, n));
+  }
+  function normProfile(p) {
+    var d = JSON.parse(JSON.stringify(DEFAULT_P));
+    if (!p || typeof p !== "object") return d;
+    Object.keys(d).forEach(function (k) {
+      if (p[k] !== undefined && typeof p[k] === typeof d[k] && Array.isArray(p[k]) === Array.isArray(d[k])) d[k] = p[k];
+    });
+    d.name = String(d.name).slice(0, 40);
+    d.bedrooms = clampInt(d.bedrooms, 0, 8, 2);
+    d.baths = clampInt(d.baths, 0, 4, 1);
+    d.toilets = clampInt(d.toilets, 0, 4, 1);
+    d.people = clampInt(d.people, 1, 10, 2);
+    d.machines = clampInt(d.machines, 0, 14, 3);
+    d.level = clampInt(d.level, 1, 3, 2);
+    d.jobMin = [30, 60, 90, 120].indexOf(d.jobMin) >= 0 ? d.jobMin : 60;
+    d.days = d.days.filter(function (x) { return x >= 0 && x <= 6; });
+    if (!d.days.length) d.days = [0, 1, 2, 3, 4, 5, 6];
+    if (!Array.isArray(d.win) || d.win.length !== 3) d.win = JSON.parse(JSON.stringify(DEFAULT_P.win));
+    d.win = d.win.map(function (w, i) {
+      var df = DEFAULT_P.win[i];
+      var ok = function (t) { return typeof t === "string" && /^\d{2}:\d{2}$/.test(t); };
+      return { on: w && w.on !== false, a: w && ok(w.a) ? w.a : df.a, b: w && ok(w.b) ? w.b : df.b };
+    });
+    if (["appart", "maison", "coloc", "chambre"].indexOf(d.home) < 0) d.home = "appart";
+    if (["none", "some", "lots"].indexOf(d.ironing) < 0) d.ironing = "some";
+    d.start = ""; d.goal = "";
+    return d;
+  }
+
   /* ---------- Données (stockées dans cet appareil) ---------- */
   var KEY = "maison-app-v1";
   var TAB_KEY = "maison-app-tab";
   function blankAll() {
-    return { v: 2, plan: { done: {}, hidden: {}, moved: {}, custom: [] }, budget: { start: 0, goal: 0, tx: [] } };
+    return { v: 3, plan: { done: {}, hidden: {}, moved: {}, custom: [] }, budget: { start: 0, goal: 0, tx: [] }, profile: null };
   }
   function normAll(d) {
     var b = blankAll();
@@ -529,6 +661,7 @@ button { cursor: pointer; }
         return t && typeof t.date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(t.date) && (t.type === "in" || t.type === "out" || t.type === "save") && isFinite(t.cents);
       }) : [];
     }
+    b.profile = d && d.profile && typeof d.profile === "object" ? normProfile(d.profile) : null;
     return b;
   }
   function loadAll() {
@@ -574,65 +707,160 @@ button { cursor: pointer; }
   CATS.forEach(function (c) { CATMAP[c[0]] = { key: c[0], name: c[1], color: "var(--k-" + c[0] + ")" }; });
 
   var WD = [1, 2, 3, 4, 5], ALL = [0, 1, 2, 3, 4, 5, 6];
-  /* dow = jours de la semaine (0 = dimanche), nth = quel jour du mois (1er, 2e...), last = dernier du mois, dates = dates précises */
-  var TPL = [
-    { k: "hab", l: "S'habiller, se laver, faire le lit, aérer la chambre", p: "10:00", d: 20, c: "routine", dow: ALL },
-    { k: "robot", l: "Lancer le robot aspirateur (salon, cuisine, couloir)", p: "10:20", d: 5, c: "menage", dow: ALL },
-    { k: "emploi", l: "Recherche d'emploi : offres, candidatures, relances", p: "10:30", d: 60, c: "emploi", dow: WD },
-    { k: "vmidi", l: "Vaisselle et table après le déjeuner", p: "14:00", d: 15, c: "routine", dow: ALL },
-    { k: "range", l: "Ronde de rangement : ce qui traîne retourne à sa place", p: "16:40", d: 10, c: "routine", dow: ALL },
-    { k: "vsoir", l: "Après le dîner : vaisselle, plan de travail, table", p: "21:30", d: 20, c: "routine", dow: ALL },
-    { k: "poub", l: "Sortir les poubelles (vérifie les jours de collecte)", p: "16:30", d: 5, c: "routine", dow: [1, 4] },
-    { k: "dust", l: "Dépoussiérer : salon, télé, étagères, rebords", p: "14:30", d: 25, c: "menage", dow: [1] },
-    { k: "cuis", l: "Cuisine : plaques, évier, façades des placards", p: "14:30", d: 30, c: "menage", dow: [2] },
-    { k: "sdb", l: "Salle de bain : douche, lavabo, miroir, sol", p: "14:30", d: 30, c: "menage", dow: [3] },
-    { k: "toil", l: "Toilettes (10 minutes chrono, avec de la musique)", p: "15:00", d: 10, c: "menage", dow: [3, 6] },
-    { k: "feuA", l: "Ramasser les feuilles mortes devant et dans l'allée", p: "15:30", d: 20, c: "dehors", dow: [3] },
-    { k: "rep", l: "Repassage : t-shirts et pantalons", p: "14:15", d: 45, c: "linge", dow: [4] },
-    { k: "parq", l: "Chambres et bureau : balai, puis serpillière bien essorée sur le parquet", p: "15:15", d: 30, c: "menage", dow: [4] },
-    { k: "sols", l: "Carrelage : balai puis serpillière (salon, cuisine, couloir)", p: "14:30", d: 35, c: "menage", dow: [5] },
-    { k: "frigo", l: "Frigo : vérifier les dates, jeter ce qui est périmé", p: "15:10", d: 15, c: "menage", dow: [5] },
-    { k: "gar", l: "Garage-buanderie : remettre en ordre et balayer", p: "14:45", d: 20, c: "dehors", dow: [6] },
-    { k: "herb", l: "Allée : arracher les mauvaises herbes", p: "15:15", d: 30, c: "dehors", dow: [6] },
-    { k: "bac", l: "Vider et nettoyer le bac du robot aspirateur", p: "15:50", d: 10, c: "menage", dow: [6] },
-    { k: "feuB", l: "Ramasser les feuilles mortes", p: "14:30", d: 30, c: "dehors", dow: [0] },
-    { k: "chb", l: "Ta chambre : bureau, tiroirs, linge sale au panier", p: "15:00", d: 20, c: "menage", dow: [0] },
-    { k: "budg", l: "Point budget de la semaine : dépenses, solde, épargne", p: "20:00", d: 20, c: "papiers", dow: [0] },
-    { k: "sem", l: "Préparer la semaine : candidatures, rendez-vous, tâches décalées", p: "20:20", d: 15, c: "emploi", dow: [0] },
-    { k: "vit", l: "Vitres et miroirs : salon, chambres, salle de bain", p: "15:30", d: 30, c: "menage", dow: [0], nth: [2, 4] },
-    { k: "micro", l: "Micro-ondes et petit électroménager : intérieur et dessus", p: "15:30", d: 20, c: "menage", dow: [0], nth: [3, 5] },
-    { k: "budm", l: "Budget du mois : revenus, charges (assurance auto, essence, abonnements), objectif d'épargne", p: "11:30", d: 30, c: "papiers", dow: [1], nth: [1] },
-    { k: "abo", l: "Abonnements : garder Spotify et CapCut ou arrêter, selon le budget", p: "15:00", d: 15, c: "papiers", dow: [1], nth: [1] },
-    { k: "four", l: "Four et hotte : nettoyage complet", p: "15:10", d: 40, c: "menage", dow: [2], nth: [1] },
-    { k: "detart", l: "Détartrer la bouilloire, les robinets et le pommeau de douche", p: "15:45", d: 30, c: "menage", dow: [4], nth: [1] },
-    { k: "lavfil", l: "Machine à laver : nettoyer le filtre et le joint, cycle à vide à 60 °C", p: "11:30", d: 20, c: "linge", dow: [5], nth: [1] },
-    { k: "robfil", l: "Robot aspirateur : brosse, filtre et capteurs", p: "15:30", d: 15, c: "menage", dow: [5], nth: [1] },
-    { k: "vet", l: "Trier tes vêtements : garder, donner, jeter", p: "15:50", d: 30, c: "menage", dow: [2], nth: [2] },
-    { k: "stock", l: "Stocks : produits ménagers, sacs poubelle, éponges, papier toilette. Noter ce qui manque pour les courses", p: "11:30", d: 15, c: "menage", dow: [4], nth: [2] },
-    { k: "pap", l: "Papiers : trier et classer CV, contrats et documents de banque", p: "11:30", d: 30, c: "papiers", dow: [5], nth: [2] },
-    { k: "pc", l: "PC : dépoussiérer le boîtier et les ventilateurs, mises à jour, sauvegarde des fichiers", p: "15:50", d: 45, c: "papiers", dow: [2], nth: [4] },
-    { k: "dessous", l: "Aspirer sous et derrière les meubles (salon, chambres)", p: "15:50", d: 45, c: "menage", dow: [4], nth: [4] },
-    { k: "bilan", l: "Bilan du mois : dépenses par catégorie, épargne faite, objectifs du mois suivant", p: "20:00", d: 45, c: "papiers", dow: [6], last: true },
-    { k: "chom", l: "Fin du chômage : date du dernier versement et démarches à faire", p: "15:15", d: 20, c: "papiers", dates: ["2026-11-02"] },
-    { k: "astra1", l: "Astra : remettre le plafonnier qui pend", p: "15:15", d: 30, c: "voiture", dates: ["2026-11-09"] },
-    { k: "astra2", l: "Astra : vérifier les niveaux (huile, lave-glace, refroidissement) et la pression des pneus", p: "15:15", d: 30, c: "voiture", dates: ["2026-11-16"] },
-    { k: "astra3", l: "Astra : régler le phare gauche", p: "16:00", d: 30, c: "voiture", dates: ["2026-11-18"] },
-    { k: "mezz", l: "Mezzanine du garage : trier, jeter, ranger", p: "11:30", d: 45, c: "dehors", dates: ["2026-11-19"] },
-    { k: "astra4", l: "Astra : demander 2 ou 3 devis pour les pneus et les disques de frein", p: "11:30", d: 30, c: "voiture", dates: ["2026-11-20"] },
-    { k: "astra5", l: "Astra : changer la sono (si le budget le permet)", p: "15:50", d: 60, c: "voiture", dates: ["2026-11-25"] },
-    { k: "astra6", l: "Astra : prendre rendez-vous au garage pour les pneus et les disques de frein", p: "11:30", d: 15, c: "voiture", dates: ["2026-11-27"] }
+  var TPL = [], LAUNDRY = {}, DRYER = false;
+  var WIN = [[600, 720], [810, 1050], [1200, 1410]];
+  var GROUPS = [
+    ["vaisselle", "Vaisselle"], ["menage", "Ménage des pièces"], ["linge", "Linge et repassage"],
+    ["exterieur", "Extérieur et garage"], ["animaux", "Animaux"], ["plantes", "Plantes"],
+    ["voiture", "Véhicule"], ["repas", "Cuisiner les repas"], ["courses", "Courses"]
   ];
-  var LAUNDRY = { 1: "tes vêtements", 2: "les tenues de travail de ton père", 3: "serviettes et torchons", 5: "couleurs et linge mélangé", 6: "draps et literie" };
+  var LAUNDRY_THEMES = ["tes vêtements", "serviettes et torchons", "draps et literie", "couleurs et linge mélangé", "tenues de travail", "sport et sous-vêtements"];
+
+  function r5(n) { return Math.max(5, Math.round(n / 5) * 5); }
+  /* Place une tâche sur les jours autorisés. Un jour interdit est remplacé par le jour le moins chargé. */
+  function place(list, days, d, load) {
+    var out = [];
+    list.forEach(function (x) {
+      var c = x;
+      if (days.indexOf(x) < 0) {
+        var best = 1e9;
+        days.forEach(function (y) { var l = load[y] || 0; if (l < best) { best = l; c = y; } });
+      }
+      if (out.indexOf(c) < 0) out.push(c);
+      load[c] = (load[c] || 0) + d;
+    });
+    return out;
+  }
+  function pickDays(n, avail) {
+    var ord = [1, 2, 3, 4, 5, 6, 0].filter(function (d) { return avail.indexOf(d) >= 0; });
+    var res = [];
+    for (var i = 0; i < n; i++) res.push(ord[Math.floor(i * ord.length / n) % ord.length]);
+    return res;
+  }
+
+  function build(P) {
+    var avail = P.days.slice();
+    var chores = P.weekendOff ? avail.filter(function (d) { return d !== 0 && d !== 6; }) : avail.slice();
+    if (!chores.length) chores = avail.slice();
+    var load = {}, loadM = {};
+    var mult = P.level === 1 ? 0.8 : P.level === 3 ? 1.25 : 1;
+    var out = [];
+    var has = function (arr, v) { return arr.indexOf(v) >= 0; };
+    var G = function (g) { return has(P.groups, g); };
+    function add(k, l, p, d, c, g, o) {
+      o = o || {};
+      if (g && !G(g)) return;
+      if (o.min && P.level < o.min) return;
+      var t = { k: k, l: l, p: p, d: o.exact ? d : r5(d * mult), c: c };
+      var isChore = o.chore || g === "menage" || g === "linge" || g === "exterieur" || g === "voiture";
+      var days = isChore ? chores : avail;
+      t.dow = o.dow ? place(o.dow, days, t.d, o.nth ? loadM : load) : days.slice();
+      if (o.nth) t.nth = o.nth;
+      if (o.last) t.last = true;
+      out.push(t);
+    }
+    var lv = has(P.equip, "lv"), robot = has(P.equip, "robot"), dryer = has(P.equip, "secheur");
+    var parquet = has(P.floors, "parquet"), moquette = has(P.floors, "moquette"), carrelage = has(P.floors, "carrelage");
+    var hasCar = has(P.vehicles, "voiture"), hasMoto = has(P.vehicles, "moto"), hasVelo = has(P.vehicles, "velo");
+
+    /* chaque jour */
+    add("hab", "S'habiller, se laver, faire le lit, aérer la chambre", "10:00", 20, "routine", null);
+    add("vmidi", lv ? "Vider le lave-vaisselle et ranger la vaisselle" : "Vaisselle et table après le déjeuner", "14:00", lv ? 10 : 15, "routine", "vaisselle");
+    add("vsoir", lv ? "Après le dîner : remplir et lancer le lave-vaisselle, essuyer la table" : "Après le dîner : vaisselle, plan de travail, table", "21:30", lv ? 15 : 20, "routine", "vaisselle");
+    add("robot", robot ? "Lancer le robot aspirateur (pièces de vie)" : "Passer le balai ou l'aspirateur dans les pièces de vie", "10:20", robot ? 5 : 15, "menage", "menage");
+    add("range", "Ronde de rangement : ce qui traîne retourne à sa place", "16:40", 10, "routine", null, { chore: true });
+    add("poub", "Sortir les poubelles (vérifie les jours de collecte)", "16:30", 5, "routine", null, { dow: [1, 4] });
+    add("dej", "Préparer le déjeuner", "11:30", 30, "routine", "repas");
+    add("din", "Préparer le dîner", "19:00", 45, "routine", "repas");
+    add("lcours", "Faire la liste de courses et vérifier les placards", "11:30", 15, "routine", "courses", { dow: [5] });
+    add("cours", "Faire les courses de la semaine", "15:00", 75, "dehors", "courses", { dow: [6] });
+    if (P.kids) add("jouets", "Ranger les jouets et la chambre des enfants", "17:00", 15, "menage", "menage");
+    if (has(P.pets, "chien")) {
+      add("chienm", "Promener le chien (matin)", "10:30", 30, "routine", "animaux");
+      add("chiens", "Promener le chien (soir)", "17:30", 30, "routine", "animaux");
+      add("chienf", "Gamelles du chien : eau et croquettes", "10:15", 5, "routine", "animaux");
+    }
+    if (has(P.pets, "chat")) add("litiere", "Litière et gamelles du chat", "10:15", 10, "routine", "animaux");
+    if (has(P.pets, "autre")) add("autreanim", "Nourrir et vérifier les autres animaux", "10:15", 10, "routine", "animaux");
+    if (P.plants) add("plantes", "Arroser les plantes", "11:00", 10, "routine", "plantes", { dow: [2, 5] });
+    if (P.job) add("emploi", "Recherche d'emploi : offres, candidatures, relances", "10:30", P.jobMin, "emploi", null, { dow: WD, exact: true });
+
+    /* chaque semaine */
+    add("dust", "Dépoussiérer : salon, meubles, étagères, rebords", "14:30", 25, "menage", "menage", { dow: [1] });
+    add("cuis", "Cuisine : plaques, évier, façades des placards", "14:30", 30, "menage", "menage", { dow: [2] });
+    if (P.baths > 0) add("sdb", P.baths > 1 ? "Salles de bain : douche, lavabo, miroir, sol" : "Salle de bain : douche, lavabo, miroir, sol", "14:30", 25 * P.baths, "menage", "menage", { dow: [3] });
+    if (P.toilets > 0) add("toil", P.toilets > 1 ? "Toilettes : cuvette, abattant, sol" : "Toilettes : cuvette, abattant, sol", "15:00", 8 * P.toilets, "menage", "menage", { dow: [3, 6] });
+    if (P.ironing !== "none") add("rep", "Repassage : t-shirts et pantalons", "14:15", P.ironing === "lots" ? 90 : 45, "linge", "linge", { dow: [4] });
+    if (P.bedrooms > 0 || P.office) {
+      var rooms = (P.bedrooms > 0 ? "chambres" : "") + (P.bedrooms > 0 && P.office ? " et " : "") + (P.office ? "bureau" : "");
+      var how = parquet ? "balai, puis serpillière bien essorée sur le parquet" : moquette ? "aspirateur, y compris sous le lit" : "balai, puis serpillière";
+      add("parq", cap(rooms) + " : " + how, "15:15", 15 * P.bedrooms + (P.office ? 15 : 0), "menage", "menage", { dow: [4] });
+    }
+    add("sols", "Pièces de vie : " + (carrelage || !moquette ? "balai puis serpillière" : "aspirateur"), "14:30", 30, "menage", "menage", { dow: [5] });
+    add("frigo", "Frigo : vérifier les dates, jeter ce qui est périmé", "15:10", 15, "menage", "menage", { dow: [5] });
+    if (has(P.outdoor, "garage")) add("gar", "Garage, cave ou buanderie : remettre en ordre et balayer", "14:45", 20, "dehors", "exterieur", { dow: [6] });
+    if (has(P.outdoor, "allee")) add("herb", "Allée et entrée : balayer et arracher les mauvaises herbes", "15:15", 30, "dehors", "exterieur", { dow: [6] });
+    if (has(P.outdoor, "jardin")) add("jard", "Jardin : tondre, ramasser les feuilles, ranger les outils", "15:15", 45, "dehors", "exterieur", { dow: [6] });
+    if (has(P.outdoor, "balcon")) add("balc", "Balcon ou terrasse : balayer, nettoyer, ranger", "15:15", 20, "dehors", "exterieur", { dow: [6] });
+    if (has(P.outdoor, "allee") || has(P.outdoor, "jardin")) add("feuA", "Ramasser les feuilles mortes", "15:30", 20, "dehors", "exterieur", { dow: [3] });
+    if (robot) add("bac", "Vider et nettoyer le bac du robot aspirateur", "15:50", 10, "menage", "menage", { dow: [6] });
+    if (P.bedrooms > 0) add("chb", "Ta chambre : bureau, tiroirs, linge sale au panier", "15:00", 20, "menage", "menage", { dow: [0] });
+    if (P.budgetOn && P.weeklyBudget) add("budg", "Point budget de la semaine : dépenses, solde, épargne", "20:00", 20, "papiers", null, { dow: [0] });
+    add("sem", "Préparer la semaine : rendez-vous, tâches décalées", "20:20", 15, P.job ? "emploi" : "papiers", null, { dow: [0] });
+
+    /* chaque mois */
+    add("vit", "Vitres et miroirs : salon, chambres, salle de bain", "15:30", 30, "menage", "menage", { dow: [0], nth: [2, 4], min: 2 });
+    add("micro", "Micro-ondes et petit électroménager : intérieur et dessus", "15:30", 20, "menage", "menage", { dow: [0], nth: [3, 5] });
+    if (P.budgetOn) {
+      add("budm", "Budget du mois : revenus, charges, objectif d'épargne", "11:30", 30, "papiers", null, { dow: [1], nth: [1] });
+      add("abo", "Abonnements : garder ou arrêter, selon le budget", "15:00", 15, "papiers", null, { dow: [1], nth: [1] });
+      add("bilan", "Bilan du mois : dépenses par catégorie, épargne faite, objectifs du mois suivant", "20:00", 45, "papiers", null, { dow: [6], last: true });
+    }
+    add("four", "Four et hotte : nettoyage complet", "15:10", 40, "menage", "menage", { dow: [2], nth: [1], min: 2 });
+    add("detart", "Détartrer la bouilloire, les robinets et le pommeau de douche", "15:45", 30, "menage", "menage", { dow: [4], nth: [1], min: 2 });
+    add("lavfil", "Machine à laver : nettoyer le filtre et le joint, cycle à vide à 60 °C", "11:30", 20, "linge", "linge", { dow: [5], nth: [1], min: 2 });
+    if (robot) add("robfil", "Robot aspirateur : brosse, filtre et capteurs", "15:30", 15, "menage", "menage", { dow: [5], nth: [1] });
+    add("vet", "Trier tes vêtements : garder, donner, jeter", "15:50", 30, "menage", "menage", { dow: [2], nth: [2] });
+    add("stock", "Stocks : produits ménagers, sacs poubelle, éponges, papier toilette. Noter ce qui manque", "11:30", 15, "menage", "menage", { dow: [4], nth: [2] });
+    add("pap", "Papiers : trier et classer contrats, factures et documents de banque", "11:30", 30, "papiers", null, { dow: [5], nth: [2] });
+    add("pc", "Ordinateur et téléphone : mises à jour et sauvegarde des fichiers", "15:50", 30, "papiers", null, { dow: [2], nth: [4] });
+    add("dessous", "Aspirer sous et derrière les meubles", "15:50", 45, "menage", "menage", { dow: [4], nth: [4], min: 2 });
+    if (hasCar) {
+      add("auto1", "Voiture : niveaux (huile, lave-glace), pression des pneus, éclairage", "15:15", 30, "voiture", "voiture", { dow: [0], nth: [1] });
+      add("auto2", "Voiture : lavage et aspirateur intérieur", "15:15", 45, "voiture", "voiture", { dow: [6], nth: [2, 4] });
+    }
+    if (hasMoto) add("moto1", "Moto : chaîne, pneus, niveaux et éclairage", "15:15", 30, "voiture", "voiture", { dow: [0], nth: [2] });
+    if (hasVelo) add("velo1", "Vélo : pression des pneus, freins, chaîne", "15:15", 20, "voiture", "voiture", { dow: [0], nth: [3] });
+    add("plint", "Plinthes, poignées de portes et interrupteurs", "15:00", 25, "menage", "menage", { dow: [1], nth: [3], min: 3 });
+    add("lumi", "Dépoussiérer luminaires et rideaux", "15:00", 30, "menage", "menage", { dow: [3], nth: [3], min: 3 });
+    add("mat", "Aspirer le matelas et laver oreillers ou housses", "15:00", 30, "menage", "menage", { dow: [6], nth: [1], min: 3 });
+
+    /* linge : les jours de machine */
+    var laun = {};
+    if (G("linge") && P.machines > 0) {
+      pickDays(P.machines, chores).forEach(function (d, i) {
+        (laun[d] = laun[d] || []).push(LAUNDRY_THEMES[i % LAUNDRY_THEMES.length]);
+      });
+    }
+
+    var win = [];
+    P.win.forEach(function (w) {
+      if (!w.on) return;
+      var a = toMin(w.a), b = toMin(w.b);
+      if (b - a >= 5) win.push([a, b]);
+    });
+    if (!win.length) win = [[600, 720], [810, 1050], [1200, 1410]];
+    return { tpl: out, laundry: laun, dryer: dryer, win: win };
+  }
+  function applyBuilt(b) { TPL = b.tpl; LAUNDRY = b.laundry; DRYER = b.dryer; WIN = b.win; }
+  function rebuild() { applyBuilt(build(normProfile(DATA.profile))); }
 
   function matches(t, date, dow, nth, isLast) {
-    if (t.dates) return t.dates.indexOf(date) >= 0;
     if (t.dow.indexOf(dow) < 0) return false;
     if (t.nth && t.nth.indexOf(nth) < 0) return false;
     if (t.last && !isLast) return false;
     return true;
   }
-
-  var WIN = [[600, 720], [810, 1050], [1200, 1410]];
   var LAY = {}, ALLT = [];
 
   function mk(id, label, p, d, c, date) {
@@ -647,9 +875,11 @@ button { cursor: pointer; }
         if (matches(t, date, dow, nth, isLast)) out.push(mk(t.k + "@" + date, t.l, t.p, t.d, t.c, date));
       });
       var lv = LAUNDRY[dow];
-      if (lv) {
-        out.push(mk("lm@" + date, "Lancer une machine : " + lv, "10:25", 5, "linge", date));
-        out.push(mk("ls@" + date, "Sortir le linge, l'étendre ou le mettre au sèche-linge", "14:15", 10, "linge", date));
+      if (lv && lv.length) {
+        lv.forEach(function (theme, i) {
+          out.push(mk((i ? "lm" + (i + 1) : "lm") + "@" + date, "Lancer une machine : " + theme, i ? "11:00" : "10:25", 5, "linge", date));
+        });
+        out.push(mk("ls@" + date, DRYER ? "Mettre le linge au sèche-linge, puis le sortir" : "Sortir le linge et l'étendre", "14:15", 10, "linge", date));
         out.push(mk("lp@" + date, "Plier et ranger le linge propre", "16:00", 15, "linge", date));
       }
     });
@@ -696,6 +926,7 @@ button { cursor: pointer; }
     var over = [];
     flex.forEach(function (t) {
       var s = findSlot(placed, t.pref == null ? 600 : t.pref, t.dur);
+      if (s == null) s = findSlot(placed, 0, t.dur);
       if (s == null) { t.start = null; t.end = null; t.overflow = true; over.push(t); }
       else { t.start = s; t.end = s + t.dur; t.overflow = false; placed.push(t); }
     });
@@ -823,23 +1054,76 @@ button { cursor: pointer; }
     return h + "</li>";
   }
 
+  var STRIP_A = 480, STRIP_B = 1440;
+  function pct(m) { return (m - STRIP_A) / (STRIP_B - STRIP_A) * 100; }
+  function freeSlots(date) {
+    var busy = (LAY[date] || []).filter(function (t) { return !t.overflow; }).map(function (t) { return [t.start, t.end]; });
+    busy.sort(function (x, y) { return x[0] - y[0]; });
+    var res = [];
+    WIN.forEach(function (w) {
+      var cur = w[0];
+      busy.forEach(function (b) {
+        if (b[1] <= cur || b[0] >= w[1]) return;
+        if (b[0] > cur) res.push([cur, b[0]]);
+        if (b[1] > cur) cur = b[1];
+      });
+      if (cur < w[1]) res.push([cur, w[1]]);
+    });
+    res.sort(function (x, y) { return x[0] - y[0]; });
+    return res.filter(function (r) { return r[1] - r[0] >= 15; });
+  }
+  function stripHtml(date) {
+    var h = '<div class="strip" aria-hidden="true">';
+    WIN.forEach(function (w) {
+      var a = Math.max(w[0], STRIP_A), b = Math.min(w[1], STRIP_B);
+      if (b > a) h += '<span class="sw" style="left:' + pct(a).toFixed(2) + "%;width:" + (pct(b) - pct(a)).toFixed(2) + '%"></span>';
+    });
+    (LAY[date] || []).forEach(function (t) {
+      if (t.overflow) return;
+      var a = Math.max(t.start, STRIP_A), b = Math.min(t.end, STRIP_B);
+      if (b <= a) return;
+      var col = (CATMAP[t.cat] || CATMAP.routine).color;
+      h += '<span class="sb" style="left:' + pct(a).toFixed(2) + "%;width:" + (pct(b) - pct(a)).toFixed(2) + "%;background:" + col + '"></span>';
+    });
+    h += '</div><div class="sticks" aria-hidden="true"><span>8 h</span><span>12 h</span><span>16 h</span><span>20 h</span><span>24 h</span></div>' +
+      '<p class="legend"><span><i class="lg lg-free"></i>Libre pour un rendez-vous</span><span><i class="lg lg-busy"></i>Tâche</span><span><i class="lg lg-off"></i>Hors de tes créneaux</span></p>';
+    return h;
+  }
+  function freeRowHtml(f) {
+    return '<li class="row free"><span class="fbox" aria-hidden="true"></span>' +
+      '<div class="when"><span class="t">' + fmt(f[0]) + '</span><span class="m">' + fmtDur(f[1] - f[0]) + "</span></div>" +
+      '<div class="what" style="cursor:default"><span class="lbl">Libre jusqu\'à ' + fmt(f[1]) + '</span><span class="chip">Place pour un rendez-vous</span></div>' +
+      '<button class="more add" type="button" data-act="rdv-here" data-s="' + f[0] + '" data-e="' + f[1] + '" aria-label="Ajouter un rendez-vous à ' + fmt(f[0]) + '">+</button></li>';
+  }
+
   function renderDay() {
     var ae = document.activeElement && document.activeElement.id;
     var list = LAY[sel] || [];
     var st = dayStats(sel);
-    var pct = st.min ? Math.round(100 * st.dmin / st.min) : 0;
+    var pctDone = st.min ? Math.round(100 * st.dmin / st.min) : 0;
     var left = st.min - st.dmin;
+    var free = freeSlots(sel);
+    var freeMin = 0;
+    free.forEach(function (f) { freeMin += f[1] - f[0]; });
     var deferable = list.filter(function (t) { return !S.done[t.id] && !t.fixed; }).length;
     var html = '<div class="dayhead"><h2>' + esc(longDay(sel)) + (sel === T0 ? '<span class="today-tag">AUJOURD\'HUI</span>' : "") + "</h2>" +
       '<button class="nav" type="button" data-act="prev" aria-label="Jour précédent"' + (sel <= MS ? " disabled" : "") + ">‹</button>" +
       '<button class="nav" type="button" data-act="next" aria-label="Jour suivant"' + (sel >= ME ? " disabled" : "") + ">›</button></div>" +
       '<p class="daymeta">' + st.dn + " faites sur " + st.n + " · " + (left > 0 ? "il reste " + fmtDur(left) : "rien à faire") + " · " + fmtDur(st.min) + " au total</p>" +
-      '<div class="prog" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '" aria-label="Avancement de la journée"><i style="width:' + pct + '%"></i></div>';
+      '<p class="daymeta freemeta">' + (freeMin > 0 ? "Libre pour un rendez-vous : <b>" + fmtDur(freeMin) + "</b>" : "Aucun créneau libre dans tes horaires") + "</p>" +
+      stripHtml(sel) +
+      '<div class="prog" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pctDone + '" aria-label="Avancement de la journée"><i style="width:' + pctDone + '%"></i></div>';
     if (st.n > 0 && st.dn === st.n) html += '<p class="win">Journée bouclée. Le PC est à toi.</p>';
     if (deferable > 0 && sel < ME) {
       html += '<div class="dayactions"><button class="btn ghost" type="button" data-act="defer-all">Tout reporter à demain (' + deferable + ")</button></div>";
     }
-    html += '<ul class="rows">' + list.map(rowHtml).join("") + "</ul>";
+    var items = [];
+    list.forEach(function (t) { if (!t.overflow) items.push({ s: t.start, t: t }); });
+    free.forEach(function (f) { items.push({ s: f[0], f: f }); });
+    items.sort(function (x, y) { return x.s - y.s || (x.f ? 1 : -1); });
+    var rows = items.map(function (it) { return it.f ? freeRowHtml(it.f) : rowHtml(it.t); });
+    list.forEach(function (t) { if (t.overflow) rows.push(rowHtml(t)); });
+    html += '<ul class="rows">' + rows.join("") + "</ul>";
     $("day").innerHTML = html;
     if (ae) { var el = document.getElementById(ae); if (el) el.focus(); }
   }
@@ -1053,12 +1337,340 @@ button { cursor: pointer; }
   });
 
   /* ============================================================
+     QUESTIONNAIRE
+     ============================================================ */
+  var OB = null;
+  var DAYN = [[1, "Lun"], [2, "Mar"], [3, "Mer"], [4, "Jeu"], [5, "Ven"], [6, "Sam"], [0, "Dim"]];
+  var NUMERIC_KEYS = { level: 1, jobMin: 1 };
+
+  function optBtn(k, v, label, on, kind) {
+    return '<button type="button" class="opt" data-ob="' + kind + '" data-k="' + k + '" data-v="' + esc(v) + '" aria-pressed="' + (on ? "true" : "false") + '">' + esc(label) + "</button>";
+  }
+  function choice(k, list, cur) {
+    return '<div class="optgrid">' + list.map(function (o) { return optBtn(k, o[0], o[1], String(cur) === String(o[0]), "choice"); }).join("") + "</div>";
+  }
+  function multi(k, list, arr) {
+    return '<div class="optgrid">' + list.map(function (o) { return optBtn(k, o[0], o[1], arr.indexOf(o[0]) >= 0, "toggle"); }).join("") + "</div>";
+  }
+  function yesno(k, cur) {
+    return '<div class="optgrid">' + optBtn(k, "1", "Oui", cur === true, "bool") + optBtn(k, "0", "Non", cur === false, "bool") + "</div>";
+  }
+  function stepper(k, label, val, lo, hi) {
+    return '<div class="stp"><span>' + esc(label) + '</span><div class="stpc">' +
+      '<button type="button" class="nav" data-ob="step" data-k="' + k + '" data-d="-1" data-min="' + lo + '" data-max="' + hi + '" aria-label="Moins : ' + esc(label) + '">−</button>' +
+      "<output>" + val + "</output>" +
+      '<button type="button" class="nav" data-ob="step" data-k="' + k + '" data-d="1" data-min="' + lo + '" data-max="' + hi + '" aria-label="Plus : ' + esc(label) + '">+</button></div></div>';
+  }
+  function q(label, body) { return '<div class="q"><p class="ql">' + label + "</p>" + body + "</div>"; }
+
+  var LEVEL_TXT = { 1: "rangé", 2: "propre", 3: "impeccable" };
+  var HOME_TXT = { appart: "appartement", maison: "maison", coloc: "colocation", chambre: "chambre ou studio" };
+
+  function winMinutes(p) {
+    var m = 0;
+    p.win.forEach(function (w) { if (w.on) { var d = toMin(w.b) - toMin(w.a); if (d > 0) m += d; } });
+    return m;
+  }
+
+  var OBS = [
+    { t: "Bienvenue", h: "Quelques questions pour construire un planning à ta mesure. Compte 2 minutes. Tu pourras tout refaire plus tard dans Réglages.",
+      r: function (a) {
+        return q("Comment t'appelles-tu ?", '<input class="tin" id="ob-name" type="text" data-obtext="name" maxlength="40" autocomplete="given-name" placeholder="Ton prénom (facultatif)" value="' + esc(a.name) + '">');
+      } },
+    { t: "Ton logement", h: "Ça décide des pièces à nettoyer.",
+      r: function (a) {
+        return q("Tu vis dans quoi ?", choice("home", [["appart", "Appartement"], ["maison", "Maison"], ["coloc", "Colocation"], ["chambre", "Chambre ou studio"]], a.home)) +
+          q("Combien de pièces ?", stepper("bedrooms", "Chambres", a.bedrooms, 0, 8) + stepper("baths", "Salles de bain ou d'eau", a.baths, 0, 4) + stepper("toilets", "Toilettes", a.toilets, 0, 4)) +
+          q("Il y a un bureau ou une pièce de travail ?", yesno("office", a.office));
+      } },
+    { t: "Dehors et plantes", h: "Coche tout ce que tu entretiens.",
+      r: function (a) {
+        return q("Ton logement a :", multi("outdoor", [["balcon", "Balcon ou terrasse"], ["jardin", "Jardin"], ["garage", "Garage, cave ou buanderie"], ["allee", "Allée ou entrée"]], a.outdoor)) +
+          q("Des plantes d'intérieur à arroser ?", yesno("plants", a.plants));
+      } },
+    { t: "Les sols", h: "Le nettoyage n'est pas le même selon la matière.",
+      r: function (a) {
+        return q("Quels sols as-tu ?", multi("floors", [["carrelage", "Carrelage"], ["parquet", "Parquet"], ["moquette", "Moquette"], ["lino", "Lino ou vinyle"]], a.floors));
+      } },
+    { t: "Qui vit là", h: "Le foyer fait varier la vaisselle, le linge et le rangement.",
+      r: function (a) {
+        return q("Combien de personnes vivent dans le foyer ?", stepper("people", "Personnes", a.people, 1, 10)) +
+          q("Il y a des enfants ?", yesno("kids", a.kids)) +
+          q("Des animaux ?", multi("pets", [["chien", "Chien"], ["chat", "Chat"], ["autre", "Autre"]], a.pets) + '<p class="hint">Ne coche rien s\'il n\'y en a pas.</p>');
+      } },
+    { t: "Ton matériel", h: "Chaque appareil raccourcit une tâche.",
+      r: function (a) {
+        return q("Tu as :", multi("equip", [["lv", "Lave-vaisselle"], ["secheur", "Sèche-linge"], ["robot", "Robot aspirateur"]], a.equip) + '<p class="hint">Ne coche rien si tu n\'as aucun de ces appareils.</p>');
+      } },
+    { t: "Le linge", h: "Pour répartir les machines sur la semaine.",
+      r: function (a) {
+        return q("Combien de machines par semaine ?", stepper("machines", "Machines", a.machines, 0, 14)) +
+          q("Le repassage ?", choice("ironing", [["none", "Jamais"], ["some", "Un peu"], ["lots", "Beaucoup"]], a.ironing));
+      } },
+    { t: "Ta part du travail", h: "Coche ce que tu prends en charge. Le reste n'apparaîtra pas dans ton planning.",
+      r: function (a) {
+        return q("Je m'occupe de :", multi("groups", GROUPS, a.groups));
+      } },
+    { t: "Niveau de propreté", h: "Ça règle le nombre de tâches et leur durée.",
+      r: function (a) {
+        return q("Tu vises quoi ?", choice("level", [[1, "Rangé"], [2, "Propre"], [3, "Impeccable"]], a.level) +
+          '<p class="hint"><b>Rangé</b> : l\'essentiel, tâches plus courtes. <b>Propre</b> : pas de poussière, tout à sa place. <b>Impeccable</b> : nettoyage en profondeur chaque mois, plus de temps par tâche.</p>');
+      } },
+    { t: "Tes disponibilités", h: "Les tâches se placent seulement dans ces créneaux.",
+      r: function (a) {
+        var days = '<div class="optgrid">' + DAYN.map(function (d) { return optBtn("days", d[0], d[1], a.days.indexOf(d[0]) >= 0, "toggle"); }).join("") + "</div>";
+        var rows = a.win.map(function (w, i) {
+          var nm = ["Matin", "Après-midi", "Soir"][i];
+          return '<div class="wrow"><label class="wck"><input type="checkbox" data-obwin="on" data-i="' + i + '"' + (w.on ? " checked" : "") + "><span>" + nm + '</span></label>' +
+            '<input type="time" data-obwin="a" data-i="' + i + '" value="' + w.a + '" aria-label="' + nm + ', début"><span aria-hidden="true">à</span>' +
+            '<input type="time" data-obwin="b" data-i="' + i + '" value="' + w.b + '" aria-label="' + nm + ', fin"></div>';
+        }).join("");
+        return q("Quels jours es-tu disponible ?", days) +
+          q("Garder le week-end sans ménage ?", yesno("weekendOff", a.weekendOff) + '<p class="hint">Oui : samedi et dimanche, il reste seulement la vaisselle, les repas, les animaux et les plantes. Le ménage, le linge, l\'extérieur et la voiture passent en semaine.</p>') +
+          q("Quelles heures ?", rows);
+      } },
+    { t: "Véhicule et emploi", h: "Pour les entretiens réguliers et ta recherche de travail.",
+      r: function (a) {
+        return q("Tu as :", multi("vehicles", [["voiture", "Voiture"], ["moto", "Moto"], ["velo", "Vélo"]], a.vehicles)) +
+          q("Tu cherches un emploi ?", yesno("job", a.job)) +
+          (a.job ? q("Combien de temps par jour de semaine ?", choice("jobMin", [[30, "30 min"], [60, "1 h"], [90, "1 h 30"], [120, "2 h"]], a.jobMin)) : "");
+      } },
+    { t: "Ton budget", h: "Tu peux sauter les montants et les remplir plus tard dans l'onglet Budget.",
+      r: function (a) {
+        return q("Tu veux des rappels budget dans ton planning ?", yesno("budgetOn", a.budgetOn)) +
+          (a.budgetOn ? q("Un point chaque semaine ?", yesno("weeklyBudget", a.weeklyBudget)) : "") +
+          q("Ton solde actuel (€)", '<input class="tin" type="text" inputmode="decimal" data-obtext="start" autocomplete="off" placeholder="Facultatif, par exemple 350,00" value="' + esc(a.start) + '">') +
+          q("Épargne visée par mois (€)", '<input class="tin" type="text" inputmode="decimal" data-obtext="goal" autocomplete="off" placeholder="Facultatif, par exemple 100,00" value="' + esc(a.goal) + '">');
+      } },
+    { t: "Ton planning", h: "",
+      r: function (a) {
+        var p = normProfile(a);
+        applyBuilt(build(p));
+        compute();
+        var tot = 0, n = ALLT.length;
+        ALLT.forEach(function (t) { tot += t.dur; });
+        var avgDay = Math.round(tot / DAYS.length);
+        var freeDay = Math.round(winMinutes(p) * p.days.length / 7);
+        var perDayN = Math.round(10 * n / DAYS.length) / 10;
+        var warn = freeDay > 0 && avgDay > freeDay * 0.85;
+        var gl = GROUPS.filter(function (g) { return p.groups.indexOf(g[0]) >= 0; }).map(function (g) { return g[1].toLowerCase(); });
+        return '<div class="card sumbox">' +
+          '<p class="big">' + (p.name ? esc(p.name) + ", voici" : "Voici") + " ton planning.</p>" +
+          "<p>En moyenne : <b>" + String(perDayN).replace(".", ",") + " tâches</b> et <b>" + fmtDur(avgDay) + "</b> de tâches par jour, pour <b>" + fmtDur(freeDay) + "</b> de créneaux libres par jour.</p>" +
+          "<p>Niveau : <b>" + LEVEL_TXT[p.level] + "</b>. Tu t'occupes de : " + (gl.length ? esc(gl.join(", ")) : "rien pour l'instant") + ".</p>" +
+          (warn ? '<p class="warn">Ça fait beaucoup par rapport à ton temps libre. Reviens en arrière pour baisser le niveau de propreté, retirer des tâches ou élargir tes créneaux.</p>' : "") +
+          "</div>" +
+          '<p class="hint">Tu pourras ajouter une tâche, retirer ou décaler n\'importe laquelle, et refaire ce questionnaire depuis Réglages.</p>';
+      } }
+  ];
+
+  function renderOb() {
+    var s = OBS[OB.i], last = OB.i === OBS.length - 1;
+    var ae = document.activeElement, aeKey = ae && ae.getAttribute ? (ae.getAttribute("data-obtext") || ae.id) : null;
+    var html = '<div class="ob-in">' +
+      '<div class="prog" role="progressbar" aria-valuemin="1" aria-valuemax="' + OBS.length + '" aria-valuenow="' + (OB.i + 1) + '" aria-label="Avancement du questionnaire"><i style="width:' + Math.round(100 * (OB.i + 1) / OBS.length) + '%"></i></div>' +
+      '<p class="eyebrow" style="margin-top:14px">Question ' + (OB.i + 1) + " sur " + OBS.length + "</p>" +
+      "<h1>" + esc(s.t) + "</h1>" + (s.h ? '<p class="hint" style="margin-top:10px">' + esc(s.h) + "</p>" : "") +
+      '<div class="qs">' + s.r(OB.a) + "</div>" +
+      (OB.i === 0 && OB.first ? '<button class="btn ghost" type="button" data-obnav="default" style="align-self:flex-start">Passer, utiliser les réglages par défaut</button>' : "") +
+      "</div>" +
+      '<div class="ob-bar"><div class="ob-barin">' +
+      (OB.i > 0 ? '<button class="btn" type="button" data-obnav="back">Retour</button>' : (OB.first ? "<span></span>" : '<button class="btn" type="button" data-obnav="cancel">Annuler</button>')) +
+      '<button class="btn primary" type="button" data-obnav="next">' + (last ? "Créer mon planning" : "Continuer") + "</button></div></div>";
+    $("ob").innerHTML = html;
+    if (aeKey) {
+      var el = $("ob").querySelector('[data-obtext="' + aeKey + '"]');
+      if (el) { el.focus(); try { var l = el.value.length; el.setSelectionRange(l, l); } catch (e) {} }
+    }
+  }
+  function openOb(first) {
+    var a = normProfile(DATA.profile);
+    a.start = inputMoney(DATA.budget.start);
+    a.goal = inputMoney(DATA.budget.goal);
+    OB = { i: 0, a: a, first: !!first };
+    $("ob").hidden = false;
+    document.body.classList.add("obing");
+    $("ob").scrollTop = 0;
+    renderOb();
+  }
+  function closeOb() {
+    $("ob").hidden = true;
+    document.body.classList.remove("obing");
+    OB = null;
+    rebuild();
+    renderAll();
+    window.scrollTo(0, 0);
+  }
+  function finishOb() {
+    var a = OB.a;
+    var s = parseMoney(a.start), g = parseMoney(a.goal);
+    var p = normProfile(a);
+    if (String(a.start).trim() !== "" && s != null) DATA.budget.start = s;
+    if (String(a.goal).trim() !== "" && g != null && g >= 0) DATA.budget.goal = g;
+    DATA.profile = p;
+    persist();
+    closeOb();
+    setTab("planning");
+  }
+  function obToggle(k, v) {
+    var key = k === "days" ? Number(v) : v;
+    var arr = OB.a[k], i = arr.indexOf(key);
+    if (i >= 0) arr.splice(i, 1); else arr.push(key);
+  }
+
+  document.addEventListener("click", function (e) {
+    var nav = e.target.closest("[data-obnav]");
+    if (nav && OB) {
+      var w = nav.dataset.obnav;
+      if (w === "next") {
+        if (OB.i === OBS.length - 1) finishOb(); else { OB.i++; renderOb(); $("ob").scrollTop = 0; }
+      } else if (w === "back") { OB.i--; renderOb(); $("ob").scrollTop = 0; }
+      else if (w === "cancel") closeOb();
+      else if (w === "default") { OB.a = normProfile(null); finishOb(); }
+      return;
+    }
+    var b = e.target.closest("[data-ob]");
+    if (!b || !OB) return;
+    var k = b.dataset.k, v = b.dataset.v, kind = b.dataset.ob;
+    if (kind === "choice") OB.a[k] = NUMERIC_KEYS[k] ? Number(v) : v;
+    else if (kind === "bool") OB.a[k] = v === "1";
+    else if (kind === "toggle") obToggle(k, v);
+    else if (kind === "step") {
+      var n = (Number(OB.a[k]) || 0) + Number(b.dataset.d);
+      OB.a[k] = Math.min(Number(b.dataset.max), Math.max(Number(b.dataset.min), n));
+    }
+    renderOb();
+  });
+  document.addEventListener("input", function (e) {
+    if (!OB) return;
+    var t = e.target;
+    if (t.matches("[data-obtext]")) OB.a[t.dataset.obtext] = t.value;
+  });
+  document.addEventListener("change", function (e) {
+    if (!OB) return;
+    var t = e.target;
+    if (!t.matches("[data-obwin]")) return;
+    var i = Number(t.dataset.i), f = t.dataset.obwin;
+    if (f === "on") OB.a.win[i].on = t.checked;
+    else if (t.value) OB.a.win[i][f] = t.value;
+    renderOb();
+  });
+
+  function profSummary() {
+    var p = DATA.profile;
+    if (!p) return "Pas encore de profil.";
+    p = normProfile(p);
+    var bits = [cap(HOME_TXT[p.home]), p.bedrooms + (p.bedrooms > 1 ? " chambres" : " chambre"), p.people + (p.people > 1 ? " personnes" : " personne"), "niveau " + LEVEL_TXT[p.level]];
+    return (p.name ? p.name + " · " : "") + bits.join(" · ") + ".";
+  }
+
+  /* ============================================================
+     ADAPTER AVEC L'IA
+     ============================================================ */
+  var UNDO_KEY = "maison-app-undo";
+  var CAT_KEYS = CATS.map(function (c) { return c[0]; });
+  var DATE_MIN = "2026-11-01", DATE_MAX = "2027-12-31";
+  var DATE_RE = /^\d{4}-\d{2}-\d{2}$/, TIME_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
+
+  function aiPrompt(request) {
+    var p = normProfile(DATA.profile);
+    var from = T0 > MS ? T0 : MS;
+    var to = addDays(from, 13);
+    if (to > ME) to = ME;
+    var rows = [];
+    DAYS.forEach(function (d) {
+      if (d < from || d > to) return;
+      (LAY[d] || []).forEach(function (t) {
+        if (t.overflow) return;
+        rows.push(t.id + " | " + d + " | " + fmt(t.start) + " | " + t.dur + " min | " + t.label);
+      });
+    });
+    return "Tu m'aides à adapter mon planning de tâches de la maison (application Maison).\n\n" +
+      "MON PROFIL ACTUEL (JSON) :\n" + JSON.stringify(p) + "\n\n" +
+      "MES TÂCHES DES 14 PROCHAINS JOURS (id | date | heure | durée | libellé) :\n" + (rows.join("\n") || "(aucune)") + "\n\n" +
+      "MA DEMANDE :\n" + (request.trim() || "(à compléter)") + "\n\n" +
+      "RÉPONDS UNIQUEMENT avec un bloc de code JSON, sans texte autour, de cette forme (garde seulement les parties utiles) :\n" +
+      '{\n  "resume": "une phrase qui dit ce que tu as changé",\n' +
+      '  "profil": { "champ": valeur },\n' +
+      '  "ajouter": [ { "label": "Dentiste", "cat": "rdv", "date": "2026-11-05", "time": "14:00", "dur": 60 } ],\n' +
+      '  "retirer": [ "id de tâche" ],\n' +
+      '  "deplacer": [ { "id": "id de tâche", "date": "2026-11-06", "time": "15:00" } ]\n}\n\n' +
+      "RÈGLES :\n" +
+      "- « profil » ne contient que les champs à changer, avec les mêmes noms et types que mon profil ci-dessus. Le planning est recalculé automatiquement à partir du profil, c'est la meilleure façon de changer beaucoup de tâches d'un coup.\n" +
+      "- level : 1 rangé, 2 propre, 3 impeccable. weekendOff : true pour aucun ménage le week-end. days : jours disponibles (0 dimanche, 1 lundi … 6 samedi). win : 3 créneaux [matin, après-midi, soir] de la forme {\"on\":true,\"a\":\"10:00\",\"b\":\"12:00\"}.\n" +
+      "- groups : liste parmi vaisselle, menage, linge, exterieur, animaux, plantes, voiture, repas, courses. ironing : none, some ou lots. jobMin : 30, 60, 90 ou 120.\n" +
+      "- « ajouter » sert aux rendez-vous et tâches ponctuelles. cat : routine, menage, linge, dehors, voiture, papiers, emploi ou rdv. dur en minutes (5 à 480). Sans « time », la tâche prend le premier créneau libre.\n" +
+      "- « retirer » et « deplacer » utilisent les id de la liste ci-dessus, recopiés exactement.\n" +
+      "- Dates au format AAAA-MM-JJ, entre " + DATE_MIN + " et " + DATE_MAX + ". Heures au format HH:MM.";
+  }
+
+  function aiApply(raw) {
+    var a = raw.indexOf("{"), b = raw.lastIndexOf("}");
+    if (a < 0 || b <= a) return { err: "Je ne trouve pas de JSON dans ce texte. Colle toute la réponse de l'IA." };
+    var obj;
+    try { obj = JSON.parse(raw.slice(a, b + 1)); } catch (e) { return { err: "Ce JSON est cassé. Demande à l'IA de te le renvoyer en un seul bloc." }; }
+    if (!obj || typeof obj !== "object") return { err: "La réponse n'a pas le bon format." };
+
+    try { localStorage.setItem(UNDO_KEY, JSON.stringify(DATA)); } catch (e) {}
+    var n = 0;
+    var ids = {};
+    ALLT.forEach(function (t) { ids[t.id] = 1; });
+    S.custom.forEach(function (c) { ids[c.id] = 1; });
+
+    if (obj.profil && typeof obj.profil === "object" && !Array.isArray(obj.profil)) {
+      var before = normProfile(DATA.profile);
+      var after = normProfile(Object.assign({}, before, obj.profil));
+      var changed = Object.keys(after).filter(function (k) { return JSON.stringify(after[k]) !== JSON.stringify(before[k]); });
+      if (changed.length) { DATA.profile = after; n += changed.length; rebuild(); compute(); }
+    }
+
+    var add = Array.isArray(obj.ajouter) ? obj.ajouter.slice(0, 30) : [];
+    var skipped = 0;
+    add.forEach(function (x) {
+      var label = x && typeof x.label === "string" ? x.label.trim().slice(0, 120) : "";
+      var date = x && typeof x.date === "string" ? x.date : "";
+      var time = x && typeof x.time === "string" && TIME_RE.test(x.time) ? x.time : null;
+      var cat = x && CAT_KEYS.indexOf(x.cat) >= 0 ? x.cat : "rdv";
+      var dur = x ? Math.round(Number(x.dur)) : 30;
+      if (!isFinite(dur) || dur < 5) dur = 30;
+      if (dur > 480) dur = 480;
+      if (!label || !DATE_RE.test(date) || date < DATE_MIN || date > DATE_MAX) { skipped++; return; }
+      S.custom.push({ id: "c" + Date.now().toString(36) + Math.floor(Math.random() * 46656).toString(36), label: label, cat: cat, date: date, time: time, dur: dur });
+      n++;
+    });
+
+    (Array.isArray(obj.retirer) ? obj.retirer.slice(0, 200) : []).forEach(function (id) {
+      if (typeof id !== "string" || !ids[id]) { skipped++; return; }
+      removeTask(id); n++;
+    });
+    (Array.isArray(obj.deplacer) ? obj.deplacer.slice(0, 200) : []).forEach(function (x) {
+      if (!x || typeof x.id !== "string" || !ids[x.id] || typeof x.date !== "string" || !DATE_RE.test(x.date) || x.date < DATE_MIN || x.date > DATE_MAX) { skipped++; return; }
+      moveTask(x.id, x.date, typeof x.time === "string" && TIME_RE.test(x.time) ? x.time : null); n++;
+    });
+
+    if (!n) {
+      try { localStorage.removeItem(UNDO_KEY); } catch (e) {}
+      return { err: "Aucun changement valide dans cette réponse." + (skipped ? " " + skipped + " élément(s) ignoré(s) car invalides." : "") };
+    }
+    persist();
+    return { n: n, skipped: skipped, resume: typeof obj.resume === "string" ? obj.resume.slice(0, 300) : "" };
+  }
+  function hasUndo() { try { return !!localStorage.getItem(UNDO_KEY); } catch (e) { return false; } }
+  function aiMsg(text, good) { var m = $("ai-msg"); m.className = "msg" + (good ? " good" : ""); m.textContent = text; }
+  function pickDur(minutes) {
+    var opts = [120, 90, 60, 45, 30, 20, 15, 10, 5];
+    for (var i = 0; i < opts.length; i++) if (opts[i] <= minutes && opts[i] <= 60) return opts[i];
+    return 15;
+  }
+
+  /* ============================================================
      RÉGLAGES
      ============================================================ */
   function isStandalone() {
     return window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches);
   }
   function renderSettings() {
+    $("s-profile").textContent = profSummary();
     $("s-install").innerHTML = isStandalone()
       ? "<p><b>L'application est installée.</b> Tu la lances depuis l'icône sur l'écran d'accueil et elle marche sans connexion.</p>"
       : "<p><b>Pour l'installer sur ton iPhone :</b></p>" +
@@ -1102,16 +1714,19 @@ button { cursor: pointer; }
     try { parsed = JSON.parse(raw); } catch (e) { disarm(); sMsg("Ce texte n'est pas une sauvegarde valide.", false); return; }
     var data = parsed && parsed.data ? parsed.data : parsed;
     if (!data || (!data.plan && !data.budget)) { disarm(); sMsg("Ce texte n'est pas une sauvegarde valide.", false); return; }
-    DATA = normAll(data); S = DATA.plan; persist(); disarm();
+    DATA = normAll(data); S = DATA.plan; persist(); disarm(); rebuild();
     $("s-restore").value = "";
     renderAll();
     sMsg("Sauvegarde restaurée.", true);
+    if (!DATA.profile) openOb(true);
   }
   function doWipe() {
     if (!wipeArmed) { arm("wipe"); sMsg("Appuie encore une fois pour tout effacer.", false); return; }
-    DATA = blankAll(); S = DATA.plan; persist(); disarm();
+    DATA = blankAll(); S = DATA.plan; persist(); disarm(); rebuild();
+    try { localStorage.removeItem(UNDO_KEY); } catch (e) {}
     renderAll();
     sMsg("Toutes les données ont été effacées.", true);
+    openOb(true);
   }
 
   /* ============================================================
@@ -1124,6 +1739,7 @@ button { cursor: pointer; }
     renderPlanning();
     renderBudget();
     renderSettings();
+    $("ai-undo").hidden = !hasUndo();
   }
   function setTab(t, keepScroll) {
     tab = t;
@@ -1176,6 +1792,45 @@ button { cursor: pointer; }
         DATA.budget.tx = DATA.budget.tx.filter(function (x) { return x.id !== id; });
         bconfirm = null; persist(); renderBudget();
         break;
+      case "ob-open": openOb(false); break;
+      case "rdv-here": {
+        var rs = Number(b.dataset.s), re = Number(b.dataset.e);
+        $("f-cat").value = "rdv"; $("f-date").value = sel; $("f-time").value = fmt(rs); $("f-dur").value = String(pickDur(re - rs));
+        var fm = $("f-msg"); fm.className = "msg good"; fm.textContent = "Créneau choisi : " + fmt(rs) + ". Écris le rendez-vous puis ajoute-le.";
+        $("addform").scrollIntoView({ behavior: "smooth", block: "center" });
+        $("f-label").focus({ preventScroll: true });
+        break;
+      }
+      case "ai-copy": {
+        var txt = aiPrompt($("ai-req").value);
+        var okc = function () { $("ai-prompt").hidden = true; aiMsg("Demande copiée. Ouvre Claude, colle-la, puis copie sa réponse ici.", true); };
+        var koc = function () { var ta = $("ai-prompt"); ta.value = txt; ta.hidden = false; ta.focus(); ta.select(); aiMsg("Copie le texte affiché ci-dessous, puis colle-le dans Claude.", false); };
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(okc, koc); else koc();
+        } catch (e2) { koc(); }
+        break;
+      }
+      case "ai-apply": {
+        var raw = $("ai-resp").value.trim();
+        if (!raw) { aiMsg("Colle d'abord la réponse de l'IA.", false); break; }
+        var r = aiApply(raw);
+        if (r.err) { aiMsg(r.err, false); break; }
+        $("ai-resp").value = "";
+        renderAll();
+        aiMsg("Fait : " + r.n + " changement" + (r.n > 1 ? "s" : "") + "." + (r.resume ? " " + r.resume : "") + (r.skipped ? " (" + r.skipped + " ignoré" + (r.skipped > 1 ? "s" : "") + " car invalide" + (r.skipped > 1 ? "s" : "") + ")" : ""), true);
+        break;
+      }
+      case "ai-undo": {
+        var snap = null;
+        try { snap = localStorage.getItem(UNDO_KEY); } catch (e3) {}
+        if (!snap) { aiMsg("Il n'y a rien à annuler.", false); break; }
+        try { DATA = normAll(JSON.parse(snap)); } catch (e4) { aiMsg("Impossible d'annuler.", false); break; }
+        S = DATA.plan; persist(); rebuild();
+        try { localStorage.removeItem(UNDO_KEY); } catch (e5) {}
+        renderAll();
+        aiMsg("Dernière adaptation annulée.", true);
+        break;
+      }
       case "backup": doBackup(); break;
       case "restore-data": doRestore(); break;
       case "wipe": doWipe(); break;
@@ -1197,8 +1852,10 @@ button { cursor: pointer; }
   $("s-restore").addEventListener("input", function () { if (restoreArmed) disarm(); });
 
   /* ---------- Démarrage ---------- */
+  rebuild();
   renderAll();
   setTab(tab, true);
+  if (!DATA.profile) openOb(true);
 
   if ("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {
     window.addEventListener("load", function () {
